@@ -1,5 +1,524 @@
 ---
-title: "Uso de Git + GitHub + RStudio"
-author: "Marcos Prunello"
+title: "Sistemas de control de versiones y de trabajo colaborativo"
+toc: true
+number-sections: true
+code-line-numbers: true
+reference-location: margin
+editor: source
+editor_options: 
+  chunk_output_type: console
+execute:
+  message: false
+  warning: false
+  echo: true
+lightbox: true
+knitr:
+  opts_chunk: 
+    fig.align: "center"
 ---
+
+# Introducción
+
+-   En cualquier proyecto de análisis de datos enseguida se generan muchísimos archivos.
+-   Datos, scripts de código, figuras, tablas, reportes, etc.
+-   Encima, cada uno de estos archivos va evolucionando en el tiempo, generando distintas versiones, algunas que son descartadas por haber sido reemplazadas por otras más completas y otras versiones que no queremos descartar porque reflejan otra forma o propuesta alternativa que queremos tener en mente.
+-   Siempre terminamos con un montón de archivos con pequeñas variaciones entre sí.
+
+```{r, fig.show='hold', echo=FALSE, out.width='100%'}
+knitr::include_graphics('imagenes/humor.png')
+```
+
+-   Como si fuera poco, estos contenidos generalmente deben ser **compartidos** o se producen trabajando colaborativamente con otras personas.
+-   Sin una forma organizada de manejar todo esto, es fácil caer en un **caos de archivos, versiones, mails con adjuntos, etc.**, que le roban tiempo al trabajo principal y pueden reducir la calidad del producto final.
+-   Contamos con algunos servicios de almacenamiento en la nube como **Google Drive** o **Onedrive** que ayudan a tener archivos sincronizados entre distintas computadoras. Sin embargo, las herramientas que ofrecen para la administración de versiones y el trabajo en equipo son limitadas.
+-   Para esto existen específicamente los **sistemas de control de versiones**.
+-   En este taller veremos los pasos iniciales en el uso de un sistema de este tipo llamado **Git** y un servicio web de hosting llamado **GitHub**.
+-   Debemos notar que para alguien que trabaja solo en proyectos de pequeña escala, tal vez no valga la pena pasar por este aprendizaje que puede ser un poco doloroso. Pero incursionar en esto se vuelve necesario a medida que deseamos interactuar con la comunidad, participar en proyectos de mayor dimensión, tomar herramientas metodológicas producidas por otras personas, integrar proyectos comunitarios de enseñanza, publicar nuestro trabajo de investigación o nuestros desarrollos, sumar herramientas valoradas en el mercado laboral, etc.
+
+## Qué es control de versiones
+
+-   Un sistema de control de versiones toma inicialmente una versión de un documento y luego registra los cambios que sufre el mismo a lo largo del tiempo. Es posible imaginarlo como una filmación: podemos retroceder a cualquier punto de la historia del documento y ver cómo cambió el mismo hasta llegar a su estado actual.
+-   Si más de una persona trabaja en el mismo documento, el sistema de control de versiones puede integrar las distintas versiones en una nueva.
+
+```{r, fig.show='hold', echo=FALSE, out.width='50%'}
+knitr::include_graphics('imagenes/00_versiones.png')
+```
+
+-   Cada una de estas versiones recibe el nombre de **commit** y el sistema registra información útil (*metadata*) sobre las mismas.
+-   El conjunto completo de todos los *commits*, su *metadata* y todos los archivos involucrados en el control de versiones de un proyecto, recibe el nombre de **repo** (*repositorio*, *repository*). Podemos imaginarnos un repo sencillamente como una carpeta de la computadora que sabe cómo guardar todo eso.
+-   El sistema provee herramientas para mantener sincronizados los *repos* en distintas computadoras o servicios de hosting, facilitando la colaboración entre personas.
+
+::: callout-note
+## Beneficios de emplear un sistema de control de versiones
+
+-   Hace que **pensemos en la organización y distribución** de nuestro trabajo como una parte integrada al mismo, sin que quede descuidada y sea realizada *a los ponchazos*.
+-   La **colaboración entre personas sea hace de forma estructurada**, con herramientas para la comunicación, el trabajo a destiempo o en simultáneo y la integración de versiones.
+-   Automáticamente disponemos de **presencia online** para nuestro proyecto con su propia página web, que podemos optar que sea privada o pública para inmediata difusión.
+-   Si estamos **desarrollando alguna pieza de software** (como un paquete de R o una librería de Python), lo podemos compartir por este medio y cualquier persona lo puede descargar e instalar e incluso realizar aportes, detectar *bugs*, incluir sugerencias, etc.
+-   Permite **publicar el código y los resultados que acompañan a nuestras publicaciones**, algo de vital importancia para aquellos editores que requieren adherencia a los principios de la investigación reproducible.
+-   **Guarda de forma organizada viejas versiones** de los archivos indefinidamente, pudiendo volver a cualquier de ellas cuando queramos, compararlas entre sí, agregar comentarios, etc.
+:::
+
+## Qué es Git
+
+```{r, fig.show='hold', echo=FALSE, out.width='25%'}
+knitr::include_graphics('imagenes/git.png')
+```
+
+-   **Git** es un sistema de control de versiones.
+-   [Hay muchos sistemas de este estilo](https://en.wikipedia.org/wiki/List_of_version-control_software), pero utilizaremos **Git** porque ha ganado gran popularidad en el mundo del análisis de datos.
+-   **Git** es el software que instalamos localmente para registrar los cambios.
+-   Se maneja con comandos desde una terminal.
+
+## Qué es GitHub
+
+```{r, fig.show='hold', echo=FALSE, out.width='25%'}
+knitr::include_graphics('imagenes/github.png')
+```
+
+-   [GitHub](https://github.com) es una interfaz gráfica online que complementa a **Git** y que provee un mecanismo de distribución para los repos.
+-   Para llevarlo a terreno conocido, **GitHub** es a **Git** lo que **RStudio** es a **R** (más o menos).
+-   Podemos usar **Git** sin **GitHub**, pero el último agrega muchas herramientas útiles.
+-   **GitHub** es el servicio de hosting que utilizaremos para que nuestro proyecto tenga presencia online, permitiéndole a otras personas explorar los archivos, su historia, sincronizarse con la versión actual, proponer y realizar cambios, etc.
+-   Hay otras plataformas que cumplen esta función, como GitLab or BitBucket, pero en este taller nos centramos en esta.
+-   **Git + GitHub** es, por ejemplo, el entorno más popular para los desarrolladores de paquetes de R. <!-- , por lo cual a cualquier usuario avanzado de R le resultará útil tener conocimientos sobre los mismos. -->
+-   En este taller no vamos a hacer mucha distinción entre qué cosa es de **Git** y cuál otra es de **GitHub**.
+-   Es más, vamos a usar estas herramientas desde RStudio, sin hacer uso en ningún momento de la terminal. <!-- , dado que estamos aprendiendo R, -->
+-   Sin embargo, al final de este material hay una sección llamada **git desde la terminal** que muestra cómo se realizan las mismas tareas empleando sólo Git. 
+
+# Crear un nuevo repo
+
+## Crear un nuevo repo en GitHub {#pasosrepo}
+
+-   Existen varias formas de crear un nuevo **git repo**, ya sea para un proyecto que vamos a arrancar desde cero o para otro ya existente.
+
+-   En este tutorial seguiremos un camino muy particular: vamos a crear el repo en GitHub para luego *traerlo* a nuestra computadora utilizando las herramientas de RStudio.
+
+-   ¿Por qué seguiremos este camino?
+
+    -   RStudio simplifica algunas cuestiones haciéndolas automáticamente sin que lo notemos, de modo que podamos dar más rápido nuestros primeros pasos.
+    -   Dado que usaremos R y RStudio como nuestro entorno de trabajo a lo largo de la materia, tiene sentido usar Git/GitHub con lo que nos ofrece RStudio.
+
+::: callout-important
+## Pasos para crear un nuevo repo en GitHub
+
+*Nota*: esto se realiza una sola vez para cada proyecto/trabajo.
+
+a.  Entrar a tu cuenta en GitHub.
+b.  Cliquear en el `+` de arriba a la derecha y luego *New Repository* (o directamente ir a <https://github.com/new>).
+c.  Elegir un nombre, agregar una descripción, indicar si será un repo público o privado (elegir público para el taller), cliquear que sí queremos tener un archivo README y finalmente cliquear **Create Repository**.
+
+```{r, fig.show='hold', echo=FALSE, out.width='75%'}
+knitr::include_graphics('imagenes/01_crear_repo_publ.png')
+```
+
+d.  Esto crea una página web llamada `github.com/usuario/nombrerepo` (en mi caso, `https://github.com/mpru/marcos_aprende_git`), que es sólo visible para nosotros si seleccionamos *Privado* o para cualquiera si pusimos *Público*.
+e.  Por ahora, esta página nos muestra que el repo tiene sólo un archivo, el `README.md`, cuyo contenido lo podemos ver abajo e incluye lo que pusimos como descripción del repo.
+
+```{r, fig.show='hold', echo=FALSE, out.width='75%'}
+knitr::include_graphics('imagenes/02_repo_creado.png')
+```
+
+f.  Para terminar, copiar la dirección del repo (en mi caso: `https://github.com/mpru/marcos_aprende_git`, también disponible en el botón verde *Clone or download*).
+:::
+
+**Acerca del archivo `README`**
+
+-   Como ya dijimos, un `README` es un archivo de texto plano que se utiliza para documentar o brindar informacióon sobre alguna pieza de software o proyecto.
+-   Si un directorio contiene un archivo `README`, se espera que el usuario lo lea antes de explorar el resto del contenido.
+-   En el contexto de un repo de GitHub, el `README` se suele escribir en Markdown (por eso su extensión `.md`) y describe brevemente el contenido del repo, instrucciones para su uso, explicaciones acerca de cómo navegar por su contenido, etc.
+-   El contenido de este archivo es lo que se muestra en la página principal del repo, por lo tanto es su carta de presentación.
+-   Podemos editar este archivo en cualquier momento.
+
+## *Traer* el repo desde GitHub a nuestra compu con RStudio (clonar) {#pasostraer}
+
+- Vamos a utilizar RStudio para **clonar** el repo de GitHub en nuestra compu.
+
+::: callout-important
+## Pasos para clonar un repo
+
+**Clonar** significa descargar una copia del repo tal como está en GitHub en nuestra compu, incluyendo ciertas configuraciones para que ambos queden vinculados y podamos, más adelante, enviar cambios y archivos automáticamente entre uno y otro.
+
+*Nota*: esto se realiza una sola vez en cada computadora.
+
+1.  Comenzar un nuevo proyecto en RStudio: `File > New Project > Version Control > Git`.
+2.  Pegar la dirección copiada en GitHub en *Repository URL*.
+3.  Elegir con cuidado dónde queremos alojar este proyecto en la compu.
+4.  Crear proyecto.
+
+```{r, fig.show='hold', echo=FALSE, out.width='50%'}
+knitr::include_graphics('imagenes/03_creaar_proy.png')
+```
+:::
+
+-   Observar que se creó una carpeta con el nombre del repo que contiene el archivo README que estaba en GitHub.
+-   Se descargaron algunas otras cositas, entre ellas una carpeta oculta llamada *.git*, que es la que Git utiliza para almacenar toda la información del repo, incluyendo archivos de configuración y una base de datos que registra todos los cambios realizados en los archivos. Si alguna vez borramos el directorio .git, perderemos la historia del proyecto y todo el control de versiones.
+-   Además, nos damos cuenta de que estamos trabajando en un git repo porque en el panel de arriba a la derecha de RStudio tenemos la pestaña "Git" y en la barra de herramientas hay un menú desplegable también llamado Git.
+
+```{r, fig.show='hold', echo=FALSE, out.width='75%'}
+knitr::include_graphics('imagenes/04_proyecto_creado.png')
+```
+
+-   A la carpeta descargada en nuestra compu le decimos **repo local** y a su versión hospedada en GitHub le decimos **remoto** o **remote**.
+-   Un *remote* de un repo es otro repo con el cual está vinculado, de modo que ambos se pueden mantener sincronizados a través del intercambio de commits.
+
+```{r, fig.show='hold', echo=FALSE, out.width='50%', fig.cap="Representación de ambos repos. La parte superior en gris representa al servidor remoto de GitHub. La parte blanca inferior es nuestra propia compu."}
+knitr::include_graphics('imagenes/ours-you.jpeg')
+```
+
+-   **Nota**: en RStudio, sólo se puede acceder a las herramientas de control de versiones si estamos trabajando dentro de un *RProject*.
+
+# Trabajar en el repo
+
+-   Ahora que tenemos todo listo, nos ponemos a trabajar como lo hacemos siempre, guardando nuestros archivos en esta carpeta, sueltos o con subcarpetas, como deseemos.
+-   Para ejemplificar, abrí y editá el archivo `README.md`. Yo le cambié el título y le agregué algo de texto. Además, creá y guardá un nuevo archivo con código de R.
+
+```{r, fig.show='hold', echo=FALSE, out.width='100%'}
+knitr::include_graphics('imagenes/05_cambios.png')
+```
+
+-   Al estar trabajando en un *git repo*, tenemos algunas herramientas para explorar.
+-   El panel Git de RStudio lista todos los archivos que han sido agregados, modificados o eliminados, señalándolos con un ícono:
+    -   **M**: el archivo fue modificado (*modified*)
+    -   **?**: es un nuevo archivo que Git no ha visto antes. (*untracked*, *no rastreado*).
+    -   **D**: archivo eliminado (*deleted*)
+-   Podemos ver más detalles sobre las modificaciones con un *diff*, una herramienta que nos permite ver cuáles son las diferencias entre la versión actual de un archivo y la última que fue registrada por Git. Hacer clic en el botón *diff*, para abrir la ventana de *Revisión de cambios*.
+-   Hagamos clic en el archivo `README.md` y por ahora miremos sólo la parte inferior de la ventana.
+-   Los colores de fondo indican si la línea fue agregada (verde) o eliminada (rojo), pero también nos podemos guiar por los números al margen (la primera columna identifica la versión vieja y la segunda, la actual). Las líneas grises no sufrieron modificaciones.
+
+```{r, fig.show='hold', echo=FALSE, out.width='75%'}
+knitr::include_graphics('imagenes/08_diff.png')
+```
+
+
+# Grabar una versión
+
+-   Lo único que tenemos que modificar en nuestra rutina de trabajo cotidiana al usar *Git* es recordar de **sacarle una foto** a nuestro trabajo cada tanto.
+
+::: callout-important
+## commit
+
+El **commit** (o *revisión*) es la unidad básica del trabajo con Git, que sirve para registrar el estado actual de nuestro proyecto y grabarlo en la historia del repo. Un *commit* se realiza cada vez que terminamos una parte del trabajo, probablemente varias veces al día.
+:::
+
+-   Un **commit** es como una fotografía de mi repo y sus archivos en un momento específico.
+-   Los sucesivos *commits* que realicemos representan distintas versiones de nuestro proyecto según cómo fue evolucionando en el tiempo.
+-   Por eso, a pesar de que hayamos realizado varios cambios, siempre podemos retornar a cómo estaba todo en un *commit* viejo cualquiera.
+-   Emplear los commits de Git es como usar anclajes y amarres al escalar. Ponemos un anclaje (hacemos un commit) en un lugar seguro y luego podemos animarnos a escalar una roca peligrosa (escribir código que podría llegar a arruinarlo todo) sabiendo que si tropezamos el amarre no nos dejará caer (podemos recuperar todo tal como estaba antes).
+
+```{r, fig.show='hold', echo=FALSE, out.width='75%'}
+knitr::include_graphics('imagenes/escalar.jpg')
+```
+
+-   Cuando empezamos a realizar commits puede parecer que ralentizamos nuestro trabajo, pero cuando nos acostumbramos ya ni nos damos cuenta de esta tarea adicional.
+
+-   Al registrar la historia de nuestro trabajo, inspeccionar los sucesivos commits puede ser muy útil para que otros, o nosotros mismos más adelante, puedan ver no sólo el producto final, si no cómo fuimos llegando hacia él.
+
+-   Un commit tiene 5 componentes clave:
+
+    -   Un **identificador único**, llamado SHA (*secure hash algorithm*)
+    -   Un **registro de los cambios** para describir los archivos añadidos, modificados y eliminados (el *diff* que mencionábamos antes).
+    -   Un **mensaje descriptivo** (*commit message*).
+    -   Un **padre** (*parent*), que es el commit previo, es decir, la versión anterior. *Nota*: el primer commit no tiene padre y hay un caso especial donde puede haber dos padres, cuando se fusionan dos versiones.
+    -   Un **autor**.
+
+
+-   Un commit se realiza en dos pasos:
+
+    1.  **Stage**: ponemos en *stage* sólo a aquellos archivos cuyos cambios queremos que sean grabados en el commit. Los *ponemos en el escenario*, avisando qué archivos queremos considerar. Sería como elegir a quiénes queremos que salgan en la foto.
+    2.  **Commit**: hacemos el *commit* con los archivos en *stage*, es decir, sacamos la fotografía del estado actual de estos archivos. Agregamos un mensaje muy breve que describa los cambios realizados.
+
+```{r, fig.show='hold', echo=FALSE, out.width='50%'}
+knitr::include_graphics('imagenes/staged.png')
+```
+
+-   En RStudio se puede hacer *stage* y *commit* en la ventana que se abre al hacer clic en el botón *Commit* del panel Git (Ctrl + Alt + m).
+
+-   Es la misma ventana que vimos antes en *diff*, pero ahora vamos a mirarla completa. Está compuesta por tres paneles:
+
+    -   Arriba a la izquierda: muestra el estado actual, al igual que el panel Git de la ventana principal de RStudio.
+    -   Abajo: vemos el *diff* del archivo seleccionado (ya lo mencionamos antes).
+    -   Arriba a la derecha: espacio para tipear el mensaje del commit.
+
+```{r, fig.show='hold', echo=FALSE, out.width='75%'}
+knitr::include_graphics('imagenes/08_diff.png')
+```
+
+::: callout-note
+## Pasos para hacer un commit
+
+a. Hacer clic en el botón *Commit* del panel Git.
+b.  Ponemos en *stage* a los archivos deseados, tildando con un tick sus respectivas casillas. Para poner en *stage* a todos los archivos hacer `ctrl + a` (*seleccionar todo*) y luego darles un clic.
+
+  -   Al poner en stage, podemos notar cómo cambia el status de cada archivo. El ícono cambia de columna desde la derecha (*unstaged status*, estado antes de poner en stage) a izquierda (*staged status*, estado luego de ponerlo en stage).
+  
+  -   Y pueden aparecer nuevos íconos:
+  
+      -   **A**: nuevo archivo añadido, uno que antes Git no rastreaba (*untracked file added*).
+      -   **R**: archivo renombrado (*renamed*). Si al archivo sólo le cambiamos el nombre, Git primero lo toma como que fue eliminado y que hay otro nuevo, pero luego de ponerlo en stage, Git reconoce que sólo fue renombrado.
+  
+  -   Podría ser que veamos íconos en ambas columnas. Esto sucede cuando hicimos cambios, pusimos el archivo en stage y luego hicimos más cambios. Cliqueando en la cajita ponemos los nuevos cambios en *stage*, haciendo otro clic sacamos de stage todos los cambios.
+
+c.  Escribimos un mensaje para describir este conjunto de cambios.
+
+```{r, fig.show='hold', echo=FALSE, out.width='75%'}
+knitr::include_graphics('imagenes/09_staged.png')
+```
+
+d.  Cliqueamos en el botón *commit*. Git toma todo lo que hemos puesto en stage y guarda una copia permanente dentro del directorio `.git`, asignándole un identificador (`bbc89e7` es el comienzo del identificador en este ejemplo). Se abre una pequeña ventana que cerramos con el botón *Close*.
+
+```{r, fig.show='hold', echo=FALSE, out.width='75%'}
+knitr::include_graphics('imagenes/10_ventanacommit.png')
+```
+:::
+
+::: callout-caution
+## Observaciones
+
+-   **Git nos obliga a poner en stage archivos antes de hacer commit**. Esto es para darnos la opción de grabar cambios por partes en un modo lógico y no todo todo el tiempo. Por ejemplo, si mientras estoy trabajando en un capítulo de mi tesis, tomo un desvío para completar la bibliografía, puedo poner en stage y hacer commit sólo de la bibliografía que quedo terminada, y no de los cambios incompletos que tengo en el capítulo en trabajo.
+-   **Ignorar archivos**: puede ser que haya archivos que no querés que sean tenidos en cuenta en la historia del repo (por ejemplo, archivos muy grandes, imágenes, archivos temporarios de LaTeX, etc.). En lugar de específicamente no ponerlos en stage antes de cada commit, podemos nombrarlos en el archivo *.gitignore*. En RStudio, podemos hacer clic en *Ignore* del menú desplegable *Git* para ignorar el archivo actual.
+:::
+
+# Revertir cambios
+
+-   La ventaja de usar commits es que podemos revertir errores. Esto es mucho más profundo que hacer `ctrl + z` en un archivo para corregir una palabra mal escrita. Significa poder desandar un buen tramo de camino en la programación para volver a una versión estable de nuestro proyecto.
+-   Para practicar, hagamos algunos otros cambios en el repo (editemos los archivos que tenemos, agreguemos otros, etc.), pongamos en stage y hagamos commit. Por ejemplo, yo agregué una última línea en el README y agregué un nuevo archivo de código con algunas líneas.
+-   Después de hacer el commit, hacer algunos otros cambios y guardar (Ctrl + s). Por ejemplo, yo agregué una línea en medio del README.
+-   Para deshacer todos los cambios realizados en un archivo desde el último commit, hacer clic en *Revert* del menú *Git* teniendo al archivo en cuestión abierto, o hacer clic derecho sobre el archivo en el panel Git y elegir *Revert*.
+-   Aceptar la advertencia. Es importante saber que no podemos deshacer esta operación.
+-   Observar que el archivo volvió a ser tal como estaba en el último commit.
+
+```{r, fig.show='hold', echo=FALSE, out.width='90%'}
+knitr::include_graphics('imagenes/11_revert.png')
+```
+
+-   **Opcional**. Se pueden revertir cambios sólo en una parte del archivo con la ventana diff (botón *discard chunk*) o revertir una o varias líneas seleccionadas.
+
+```{r, fig.show='hold', echo=FALSE, out.width='75%'}
+knitr::include_graphics('imagenes/12_revertchunk.png')
+```
+
+-   Ahora que ya tenemos al menos dos commits realizados, más el inicial, vamos a mirar la ventana *Review Changes* que se abre cuando hacemos clic en el botón *History* del panel Git de RStudio.
+
+```{r, fig.show='hold', echo=FALSE, out.width='90%'}
+knitr::include_graphics('imagenes/14_reviewchanges.png')
+```
+
+-   La parte de arriba de esta ventana muestra todos los commits del repo.
+-   La parte de abajo muestra toda la info del commit que esté seleccionado arriba (SHA, autor, fecha, mensaje, el padre y los diffs de cada archivo).
+-   Si queremos podemos elegir cualquiera de los commits para revertir nuestro repo a como estaba en dicho commit. Para esto necesitamos la consola, no nos alcanza con RStudio.
+
+# Sincronizar con GitHub
+
+-   Hasta ahora sólo estuvimos trabajando en el *repo local*, usando commits para rastrear nuestro proyecto y generar puntos seguros de salvataje.
+-   Sin embargo, Git se destaca cuando empezamos a subir nuestro código a GitHub, ya sea para tener un backup en la nube o para compartirlo con otras personas.
+-   Un sistema como Git permite mover nuestro trabajo entre dos repos cualesquiera.
+-   En la práctica, estos dos repos para nosotros serán el mismo: el **repo local** alojado en nuestra compu y el **repo remoto** alojado en GitHub.
+-   El **remoto** en GitHub cumple el rol de ser una especie de repo central, a partir del cual nosotros mismos u otras personas pueden tomar el material seguir trabajando y dejarlo ahí cuando terminen.
+-   Si recordamos un poco, al empezar el taller creamos el repo en GitHub y luego lo **clonamos** en nuestra compu con la ayuda de RStudio.
+-   Esto hizo toda la configuración necesaria para que el repo local y el remoto en GitHub estén vinculados.
+
+::: callout-important
+## Pull y push
+
+Enviar nuestro trabajo realizado localmente al repo ubicado en GitHub se llama **push** y traer trabajo desde el repo en GitHub al local se llama **pull**.
+
+```{r, fig.show='hold', echo=FALSE, out.width='40%'}
+knitr::include_graphics('imagenes/15_pullpush.png')
+```
+:::
+
+-   Como tenemos trabajo local que aún no está en GitHub, tenemos que hacer **push**.
+-   Sin embargo, conviene acostumbrarse a hacer **pull** antes de hacer **push**. Esto es para descargar cambios que otras personas pudieron estar contribuyendo al repo central en GitHub antes de subir los nuestros. De esta forma, nos aseguramos de tener siempre la versión más actual de todo.
+-   Esto ahora para nosotros no tiene mucho sentido, dado que probablemente nadie aportó nada a nuestro repo en GitHub y no hay cambios para descargar, pero lo hacemos igual para construir el hábito.
+-   Hacemos clic en el botón `pull` del panel `Git` de Rstudio.
+-   Se abre una nueva ventanita que, como esperábamos, nos dice que todo ya está actualizado. Hacemos clic en `Close`.
+
+```{r, fig.show='hold', echo=FALSE, out.width='75%'}
+knitr::include_graphics('imagenes/16_ventanapull.png')
+```
+
+-   Ahora sí enviamos nuestros cambios, haciendo clic en el botón `push` del panel `Git` de Rstudio.
+-   Cuando se termine de enviar el material, cerramos la ventana que se abrió con `Close`.
+
+```{r, fig.show='hold', echo=FALSE, out.width='75%'}
+knitr::include_graphics('imagenes/18_ventanapush.png')
+```
+
+-   Ahora vamos a la página de GitHub para ver los cambios introducidos (en mi caso, `https://github.com/mpru/marcos_aprende_git`).
+-   Podemos explorar la página, navegar por los archivos. Observemos que cada archivo tiene indicado el último commit en el que fue modificado con su respectivo mensaje.
+
+```{r, fig.show='hold', echo=FALSE, out.width='75%'}
+knitr::include_graphics('imagenes/20_pushengithub.png')
+```
+
+::: callout-note
+## Nota
+Generalmente, un **push** incluye varios commits, uno hace **push** menos frecuentemente de lo que hace *commits*, porque **push** es publicar o compartir, e idealmente, uno comparte código que más o menos funciona.
+:::
+
+::: callout-note
+## Beneficios de usar GitHub
+
+-   Acceder a un sitio web para tu proyecto. Además de poder navegar por todos los archivos, podés crear un buen README con Markdown para mostrar en la página principal. Todos los .R se verán con resaltado específico para el código y todos los .md o .Rmd se renderizarán como HTML.
+-   Si se trata de un paquete o librería, al ponerlo en GitHub ya queda listo para que cualquiera lo instale y use.
+-   Podés ver cómo evolucionó tu proyecto o el de otros, para poder ofrecer buena ayuda. Si hacés clic en un archivo y luego en *History*, podés ver todos los commits que lo afectaron y rápidamente ver la versión del archivo en cada uno de esos momentos.
+-   Podés agregar comentarios en cada commit, ya sea para el commit en general o en una línea particular de un archivo. Se puede usar para detectar errores o para hacer una pregunta.
+-   Podés crear o participar de discusiones sobre algún aspecto del proyecto.
+:::
+
+# Colaborar con otras personas {#colaborar}
+
+-   Como dijimos varias veces, uno de los aspectos fundamentales de GitHub es que nos permite colaborar en los proyectos de otras personas.
+
+-   Esto abre dos posibilidades:
+
+    -   Realizar una contribución en el repo de otra persona.
+    -   Recibir una contribución de otra persona en nuestro repo.
+
+## Fork
+
+-   En este material, **yo**, con el usuario **mpru** (github.com/mpru), voy a contribuir al repo `ProyectoInteresante` de la cuenta de otro usario llamado **AprendizGit2** ([github.com/AprendizGit2/ProyectoInteresante](https://github.com/AprendizGit2/ProyectoInteresante/tree/main)) y esta persona, más tarde, va a aceptar mi contribución.
+-   Estando logueado en mi cuenta de GitHub, voy a la web del repo `ProyectoInteresante` de `AprendizGit2` y hago clic en el botón `Fork`.
+
+::: callout-important
+## Fork
+
+Hacer un **fork** es crear una copia exacta de un repo ajeno en mi cuenta de GitHub. A partir de ahora, tengo mi propio repo `ProyectoInteresante` en mi cuenta.
+:::
+
+```{r, fig.show='hold', echo=FALSE, out.width='100%', fig.cap="La captura puede no coincidir exactamente con el aspecto actual de GitHub, puesto que el mismo cambia frecuentemente, pero el contenido es equivalente. Notar que en la figura el usuario dice AprendizGit, cuando en verdad es AprendizGit2."}
+knitr::include_graphics('imagenes/24_forkcoment.png')
+```
+
+-   Todas las modificaciones que quiera hacer, las voy a hacer en mi repo, en mi cuenta.
+-   En este momento, tenemos un repo en GitHub en el cual queremos trabajar. Estamos en la misma situación que [cuando terminamos de crear un repo nuevo en GitHub al inicio del taller](#pasosrepo).
+-   Tenemos que **clonarlo** para traerlo a mi compu (es decir, hacer un famoso **fork & clone**), empezar a trabajar localmente y *pushear* el trabajo hecho a nuestro repo en GitHub.
+
+```{r, fig.show='hold', echo=FALSE, out.width='50%', fig.cap="Representación de tres repos. La parte superior en gris representa al servidor remoto de GitHub. La parte blanca inferior es nuestra propia compu."}
+knitr::include_graphics('imagenes/fork_upstream_is_not_origin_parent.jpeg')
+```
+
+- Para mantener el ejemplo corto y sencillo, sin necesidad de hacer otras configuraciones, no vamos a hacer el *clone* y sólo trabajaremos remotamente **en nuestro repo de GitHub**.
+-   Por ejemplo, voy a agregar un nuevo archivo llamado `analisis.R`, haciendo clic en `Add file`:
+
+```{r, fig.show='hold', echo=FALSE, out.width='100%', fig.cap="Subir un archivo al repo en GitHub. Las capturas no coinciden exactamente con la versión actual de GitHub, pero todo es equivalente."}
+knitr::include_graphics('imagenes/26_uploadcoment.png')
+```
+
+-   Para poder hacer una modificación online, hay que realizar el respectivo *commit*, por eso tenemos que escribir su mensaje y hacer clic en el botón *commit*.
+
+## Pull request
+
+-   Cuando considere que mi contribución está terminada, le voy a proponer a *AprendizGit2* que considere incluir mis cambios a través de un **pull request**. 
+-   Si esta persona está de acuerdo, los aceptará con un **merge**.
+
+::: callout-important
+## Pull request y merge
+
+Un **pull request** o **pedido de pull** es una petición que hacemos para que el dueño del repo en el que estamos colaborando integre nuestras propuestas o cambios a su código. Es la forma de avisarle que tenemos algo para contribuir y pedirle que lo revise.
+
+El **merge** o **unión** tendrá lugar cuando esa persona acepte nuestra propuesta e implica que la fusión entre su versión del repo y la nuestra.
+:::
+
+-   Para lograr esto:
+
+    1.  Hacemos clic en el botón `Contribute` y luego en `Open pull request`, o en el botón `Pull request` y luego en `New pull request`.
+    2.  En la siguiente ventana podemos darle un título a nuestro cambio propuesto y describir con detalle el por qué de la sugerencia en el cuadro de texto. Cuando terminamos, hacemos clic en `Create pull request`.
+    3.  La tercera página es la web del *pull request* que ya fue realizado, donde podría seguir la conversación entre distintas personas sobre estos cambios propuestos.
+
+```{r, fig.show='hold', echo=FALSE, out.width='100%', fig.cap="Pull request en GitHub. Las capturas no coinciden exactamente con la versión actual de GitHub, pero todo es equivalente."}
+knitr::include_graphics('imagenes/27_pullrequest.png')
+```
+
+-   Al dueño del repo, en nuestro ejemplo **AprendizGit2**, le llega una notificación para que venga a mirar esto:
+
+  1.  **AprendizGit2** entra a su repo, va a la pestaña `Pull requests` y se encuentra con el listado de todos los pull requests que ha recibido (uno solo en este ejemplo).
+  2.  **AprendizGit2** hace clic en el pull request y entra en una página donde puede ver el mensaje que le dejé yo, puede responderme y puede explorar los cambios y archivos involucrados. Si le parece bien, puede hacer clic en `Merge pull request` para adoptar estos cambios.
+  3.  Una vez hecho el *merge*, en la página del pull request queda registrada toda esta historia.
+  4.  Y si volvemos al repo `ProyectoInteresante` de **AprendizGit2** vemos que el cambio aportado, que, recordamos, se trataba de haber agregado un nuevo archivo llamado *analisis.R*.
+
+```{r, fig.show='hold', echo=FALSE, out.width='100%'}
+knitr::include_graphics('imagenes/28_aceptarpr.png')
+```
+
+::: callout-tip
+## Ejercicio 1
+
+Seguí los pasos anteriores para hacer tu propia contribución al repo *ProyectoInteresante* del usuario *AprendizGit2*. Agregá un nuevo archivo, tal vez puedas usar tu nombre como nombre del archivo (no edites uno existente, para evitar posibles complicaciones que escapan al alcance de este taller).
+
+Una vez que termines, podrías probar de hacer otra contribución en un repo de algún/a compañero/a.
+:::
+
+::: callout-warning
+## Para tener en cuenta
+
+1.  Para simplificar el proceso, hicimos un ejemplo en el que sólo trabajamos en GitHub. Con esto logramos nuestro objetivo de armarnos una idea general sobre el tema. Sin embargo, la gran potencia de estos sistemas es poder trabajar localmente. No es mucho más complejo que lo que ya hicimos, pero se necesitan hacer otras configuraciones para mantener todo bien ordenadito: nuestro repo local, nuestro repo remoto (generalmente identificado como *origin*) y el repo original de la otra persona al que queremos contribuir (conocido como *upstream*).
+2.  Un repo puede tener varias "vías" paralelas de trabajo, que se llaman *branches* (ver más abajo). Se recomienda no trabajar en la *main branch* de un repo *forkeado* como hicimos recién, sino hacer los cambios que queramos en otra *branch*, como para no mezclar lo que hacemos nosotros con lo que ya estaba, hasta no estar seguros del todo. Más adelante se retoma esta idea, pero si trabajo de forma individual o con pocas personas, podemos omitirlo, en especial si estamos dando nuestros primeros pasos en este universo.
+3.  Mientras yo estuve trabajando en mi repo local, puede que el dueño del repo original (*AprendizGit2*) también haya estado haciendo lo suyo y mi versión ya esté actualizada. Es necesario asegurarse de que podamos estar sincronizados con el repo original (*upstream*).
+
+Estos temas se abordan en la sección de lectura opcional. Por ahora, con lo que vimos alcanza.
+:::
+
+## Invitar colaboradores a un repo
+
+-   Todo lo anterior de **fork & clone** sirve siempre y cuando estemos copiando y contribuyendo a un repo público.
+
+-   Si tenemos un repo privado y queremos hacer que alguien más pueda participar del mismo, podemos invitarlos a participar como **colaboradores**.
+
+-   Como colaborador de un repositorio personal, esa persona podrá hacer *pull* y *push* directamente a ese repositorio, sin tener que hacer ningún *pull request*.
+
+-   Para agregar un colaborador hay que:
+
+    1.  Ir a la web del repo en GitHub.
+    2.  Hacer clic en `Settings`.
+    3.  Hacer clic en `Collaborators` del panel de la izquierda.
+    4.  Hacer clic en el botón `Add people`.
+    5.  Ubicar a la persona a invitar mediante su nombre de usuario o email.
+    6.  Hacer clic en `Add to this repository`.
+
+-   La persona invitada recibirá una notificación por correo o en su GitHub con la invitación, que deberá aceptar dentro de los próximos 7 días o caducará.
+
+## Organizaciones
+
+- Otra forma de armar el trabajo comunitario en GitHub es en el contexto de las **organizaciones**.
+- Las organizaciones son cuentas compartidas con varios repositorios en cuales un grupo de personas pueden trabajar juntos, a través de sus cuentas individuales. 
+- Los integrantes de las organizaciones tienen distintos roles (dueños, miembros, etc.) con distintos niveles de privilegio o de accesos a los repos.
+- En el contexto de este curso, utilizaremos a [la organización "aid-austral-2024"](https://github.com/aid-austral-2024) administraremos las entregas de la tareas.
+- Recibirán una invitación por email para sumarse a la misma.
+
+## Los *issues* de GitHub
+
+-   Los repos en GitHub tienen una página de *issues* (asuntos o problemas), que sirven para que integrantes del mismo equipo de trabajo (u otros si el repo es público) puedan comunicar por ese canal inconvenientes que encuentren, sugerencias, tareas por hacer, etc.
+-   Para cada *issue* se puede abrir un canal de discusión, con la posibilidad de etiquetar a personas, commits, pull-requests, etc.
+-   Un *issue* termina siendo un medio para organizar el trabajo en equipo.
+-   Una vez que el tema fue finalizado, se cierra el *issue*.
+-   Generalmente, resulta ser un medio cómodo para contactar a algún autor y para conseguir una respuesta rápida.
+
+::: callout-tip
+## Ejercicio 2
+
+Buscar en GitHub el repositorio correspondiente al desarrollo de cualquier paquete de R de su interés (por ejemplo, el de [ggplot2](https://github.com/tidyverse/ggplot2/)) y resolver las siguientes consignas:
+
+a. Identificar y explorar el archivo `README`. ¿Qué tipo de información o contenido presenta?
+b. Identificar cuántas personas contribuyen al repo y cuántos *forks* se han hecho.
+c. ¿Cuántos *commits* se han hecho en toda la historia del repo?
+d. ¿Cuándo fue el último *commit* realizado? ¿Qué dice su mensaje? ¿Qué archivos y qué líneas en esos archivos modificó? ¿Quién fue el/la autor/a?
+e. ¿Cuántos *issues* abiertos hay? Entrar a alguno que presente al menos dos comentarios y discernir sobre qué se trata. Describir la forma de interacción entre las personas involucradas e identificar en qué estado se encuentra el *issue*.
+f. ¿Cuántos *issues* cerrados hay? Entrar a alguno que presente al menos dos comentarios y discernir sobre qué se trata. Describir la forma de interacción entre las personas involucradas e identificar quién y por qué lo cerró.
+g. ¿Cuántos *pull requests* abiertos hay? Elegir uno y explorarlo, para identificar quién lo hizo y de qué se trata.
+:::
+
+# Material consultado
+
+Al ir aprendiendo a usar git, siempre tuve la costumbre de anotarme en algunos archivos sueltos cómo hacía cada cosa o cómo resolvía las dificultades con las que me encontré. Este material surge un poco como el ordenamiento de esas notas, apoyado por la formalización aprendida viendo recursos como los que se listan abajo. El principal de ellos es el libro de Jenny Bryan, *Happy Git and GitHub for the useR*, que le hace honor al nombre y sirve para despejar muchísimas dudas, no sólo del uso de git en R sino del sistema en general.
+
+-   <http://happygitwithr.com/>
+-   <https://cfss.uchicago.edu/setup/what-is-git/>
+-   <https://peerj.com/preprints/3159/>
+-   <https://swcarpentry.github.io/git-novice/>
+-   <https://swcarpentry.github.io/git-novice-es/>
+-   <https://carpentries-incubator.github.io/git-Rstudio-course/>
+-   <https://r-bio.github.io/intro-git-rstudio/>
+-   <https://aberdeenstudygroup.github.io/studyGroup/lessons/SG-T1-GitHubVersionControl/VersionControl/>
 

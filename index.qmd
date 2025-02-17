@@ -11,7 +11,7 @@ date-format: long
 
 En la sección [Preparativos](preparacion.html) vas a encontrar los materiales necesarios para seguir los ejemplos.
 
-![](images/flyer.jpeg){fig-align="center" width="40%"}
+![](imagenes/logos.png){fig-align="center" width="40%"}
 
 ### Presentador
 

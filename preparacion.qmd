@@ -1,4 +1,100 @@
 ---
 title: "Preparativos para el taller"
+number-sections: true
 ---
 
+## Crear una cuenta en GitHub
+
+-   Se hace de forma gratuita en [GitHub](https://github.com).
+
+## Instalar el paquete de R `usethis`
+
+```{r, eval=FALSE}
+install.packages("usethis")
+```
+
+## Instalar Git
+
+-   **Windows**:
+
+    -   Descargar la distribución *Git for Windows* de [acá](https://git-scm.com/download/) o [acá](https://gitforwindows.org/) (cualquiera es lo mismo).
+
+    -   Si bien hay otras opciones, *Git for Windows* trae otras herramientas además de Git y deja el ejecutable en una ubicación donde RStudio y otros programas lo encuentran fácilmente.
+
+    -   Durante la instalación, aceptar todas las opciones por defecto haciendo clic en "Next", prestando atención a estas dos opciones:
+
+        -   En la parte de "Choosing the default editor used by Git", elegir el Bloc de notas o Notepad.
+        -   En la parte de "Adjusting your PATH environment" asegurarse que tengamos seleccionada la opción "Git from the command line and also from 3rd-party software".
+
+<br>
+
+-   **Linux**: `sudo apt-get install git`
+-   **Mac**: [instrucciones](https://happygitwithr.com/install-git.html#macos)
+
+## Configurar Git
+
+-   Se realiza una sola vez en cada computadora.
+-   Hay que indicar un nombre de usuario y correo.
+-   No es necesario que el nombre sea el mismo que el de tu cuenta de GitHub. De hecho, si usás Git en distintas computadoras (notebook, PC, oficina) podrías incorporar esta info en el nombre de usuario que elijas en cada una (ej: "marcos-oficina"), o usar en todos lados el mismo.
+-   Sin embargo, el correo siempre debe ser el mismo que el de tu cuenta de GitHub.
+-   Vamos a hacer esto en R con el paquete `usethis`, que incluye funciones útiles para desarrolladores, entre ellas algunas que nos permiten usar Git indirectamente a través de R, evitándonos hacer uso de una terminal.
+-   Correr el siguiente código:
+
+```{r, eval=F}
+library(usethis)
+use_git_config(user.name = "minombre", user.email = "micorreo@proveedor.com")
+```
+
+## Conectar git con GitHub
+
+-   Cada vez que nuestra instalación local de **Git** quiera interactuar con el servidor remoto de **GitHub**, tiene que presentar ciertas **credenciales** para certificar que tiene los permisos correspondientes.
+
+-   Lamentablemente, por cuestiones de seguridad, no es suficiente con poner nuestra contraseña de GitHub en algún lugar.
+
+-   Hay que usar un **protocolo para el acceso y uso seguro de servidores remotos**.
+
+-   Para esto se puede elegir entre dos opciones, el **protocolo HTTPS** (un poco más sencillo e ideal para dar los primeros pasos) y el **protocolo SSH** (un poco más seguro, usando unas "llaves" que se guardan y machean local y remotamente).
+
+-   Vamos a elegir la primera opción.
+
+    1.  **Crear un personal access token o PAT en GitHub.**
+
+        -   Podemos ir a crearlo en <https://github.com/settings/tokens/new>, pero es más fácil si desde R corremos el siguiente código, que nos llevará a la misma web pero habiendo elegido algunos valores por default para definir los permisos que son los recomendados:
+
+            ```{r, eval=FALSE}
+            usethis::create_github_token()
+            ```
+
+        -   En `NOTE` ponemos una descripción del token. Potencialmente podríamos usar varios PATs, por ejemplo, uno por cada máquina en la que trabajo. Ponerle una descripción nos permite identificar cada PAT en el listado de tokens de GitHub y eventualmente eliminar los que ya no usemos.
+
+
+        -   Notar que el token tiene una fecha de expiración, por seguridad. Pasada la misma, podemos crear otro PAT de la misma forma.
+
+        -   Dejar los permisos como están y hacer clic abajo en `Generate token`.
+
+        -   Aparece una ventana que nos muestra el token. **¡Es la única vez que lo veremos!**. Así que no cierres esa ventana sin copiarlo al portapapeles (o dejalo por unos minutos pegado en un bloc de notas o algo así).
+
+    2.  **Almacenar el PAT en algún sistema de credenciales o contraseñas.**
+
+        -   El **PAT** es como una contraseña, no debería estar anotado en ningún lugar o archivo, ni lo deberíamos dejar escrito en nuestros scripts.
+
+        -   Hay personas que utilizan aplicaciones para administrar sus contraseñas, ese podría ser un lugar para guardarlo.
+
+        -   **Git** ofrece un sistema de manejo de credenciales para ayudarnos con esto (*git credential store*) y lo podemos usar muy fácilmente mediante el paquete de R `gitcreds` (que vino junto a la instalación del paquete `usethis`).
+
+        -   Sólo tenemos que correr la siguiente línea y pegar el PAT cuando es solicitado:
+
+            ```         
+            gitcreds::gitcreds_set()
+
+            ? Enter password or token: ghp_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+            -> Adding new credentials...
+            -> Removing credentials from cache...
+            -> Done.
+            ```
+
+        -   De esta forma nuestra instalación local de **git** queda autentificada para trabajar remotamente con **GitHub**.
+
+        -   Como este sistema de credenciales funciona un poco como un caché de un explorador web, puede ser que después de algún tiempo por seguridad no se encuentre más nuestra credencial. En caso de que GitHub nos deniegue el acceso, podemos crear un nuevo token de la misma forma.
+
+        -   En Linux todo lo anterior no anda así tan sencillamente, es más fácil usar el protocolo SSH.

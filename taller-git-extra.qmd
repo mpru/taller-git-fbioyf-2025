@@ -1,5 +1,679 @@
 ---
-title: "Uso de Git + GitHub + RStudio"
+title: "Otras cuestiones relacionadas"
 author: "Marcos Prunello"
+toc: true
+number-sections: true
+code-line-numbers: true
+reference-location: margin
+editor: source
+editor_options: 
+  chunk_output_type: console
+execute:
+  message: false
+  warning: false
+  echo: true
+lightbox: true
+knitr:
+  opts_chunk: 
+    fig.align: "center"
 ---
+
+::: callout-caution
+## Nota
+
+Esta sección contiene información sobre otros aspectos relacionados a Git y GitHub que no abarcaremos en el taller. Sin embargo, comparto este material que me ha servido de referencia en otras ocasiones, en caso de que alguna vez pueda llegar a resultarles útil a ustedes también.
+:::
+
+## git desde la terminal
+
+Podemos usar git de forma independiente de RStudio con la terminal de la computadora. Esta sección cuenta cómo realizar las tareas vistas en el taller haciendo uso exclusivo de la terminal. En Windows, conviene emplear una terminal que Git provee, llamada **Git Bash**. 
+
+### Establecer nombre de usuario y email
+
+-   Abrir una terminal (o GitBash en Windows) y hacer:
+
+```{r, engine = 'bash', eval=F}
+git config --global user.name 'minombre'
+git config --global user.email 'micorreo@proveedor.com'
+```
+
+-   Estos comandos no producen ninguna salida. Para verificar que los registros fueron hechos: `git config --global --list`.
+
+### Administrar credenciales
+
+-   Sin la ayuda del paquete de R `gitcreds` no es tan fácil encargarse del PAT y tal vez incluso sea más fácil recurrir al otro protocolo, **SSH**.
+-   De todas formas, [en este enlace](https://stackoverflow.com/questions/46645843/where-to-store-my-git-personal-access-token) indican cómo almacenar el PAT desde la terminal de *Git Bash*, instalando previamente algún sistema de manejo de credenciales.
+-   En Linux, es recomendable seguir la [documentación de GitHub](https://docs.github.com/en/authentication/connecting-to-github-with-ssh) para usar el protocolo SSH.
+
+
+### Crear un repo
+
+**Crear primero el repo en GitHub**
+
+-   Crear un nuevo repo en GitHub como indicamos en [esta parte](#pasosrepo).
+-   En la consola de tu computadora, moverse con `cd` hasta la carpeta donde querés que se descargue el repo.
+-   Clonar el repo desde GitHub a la computadora: `git clone https://github.com/mpru/marcos_aprende_git`
+-   Pasarse a esta carpeta (entrar al repo): `cd marcos_aprende_git`
+-   Listar sus contenidos: `ls`
+-   Ver la info acerca del vínculo de este repo local con el repo en GitHub (al que se le dice *remoto* o *remote*): `git remote show origin`
+
+**Crear primero el repo localmente**
+
+-   Empezar creando el repo en GitHub no es la única forma de trabajar, es la forma que hemos tomado para poder usar Git desde RStudio sin tener que recurrir a la terminal en ningún momento.
+
+-   Otra opción es empezar creando localmente el repo (sin hacer nada en GitHub antes).
+
+-   Creamos una carpeta para el repo y nos metemos en ella.
+
+    ```{r, engine = 'bash', eval=F}
+    mkdir marcos_aprende_git
+    cd marcos_aprende_git
+    ```
+
+-   Por supuesto, ahora no hay nada: `ls`
+
+-   Le indicamos a Git que inicialice un *git repo* para almacenar las distintas versiones de nuestros archivos: `git init`
+
+-   Aparentemente sigue sin haber nada (`ls`), pero si agregamos la opción `-a` para que nos muestre todo, incluso los elementos ocultos de la carpeta, podremos ver el directorio `.git`: `ls -a`
+
+-   En cualquier momento podemos hacer git status para ver el estado actual del repo: `git status`
+
+-   Si después de haber empezado desde cero localmente y trabajado allí, queremos vincular el repo con GitHub, seguimos así:
+
+    -   Crear un nuevo repo en GitHub con el mismo nombre del repo local.
+    -   Dado que este repo se va a conectar a un repo local que ya existe, tiene que estar vacío, por lo tanto hay que dejar sin seleccionar la opción de "Initialize this repository with a README" y asegurarse de dejar "None" tanto en "Add .gitignore" y "Add a license".
+    -   Con esto, lo que está haciendo GitHub en sus servidores es:
+
+    ```{r, engine = 'bash', eval=F}
+    mkdir marcos_aprende_git
+    cd marcos_aprende_git
+    git init
+    ```
+
+    -   En la terminal en nuestra compu, estando posicionados dentro del repo, hacemos:
+
+    ```{r, engine = 'bash', eval=F}
+    git remote add origin git@github.com:mpru/marcos_aprende_git.git
+    git push -u origin main
+    ```
+
+    -   La primera línea le indica a Git que mi repo local tiene una versión remota (*remote*) en GitHub y la llama *origin* (podríamos ponerle otro nombre, pero se acostumbra así).
+    -   La segunda línea manda todo lo que tengo actualmente en mi repo a GitHub (*push*), al remoto llamado *origin* en su rama (*branch*) llamada *main* (esta observación no es importante por ahora). `git push -u` equivale a `git push --set-upstream`.
+    -   Ya estamos listos, podemos ver las configuraciones realizadas: `git remote -v` (equivale a `git remote --verbose`). Salida:
+
+    ```         
+    origin    https://github.com/mpru/marcos_aprende_git (fetch)
+    origin    https://github.com/mpru/marcos_aprende_git (push)
+    ```
+
+    -   Ver info sobre el branch actual: el branch local "main" está rastreando al branch "main" en "origin", es decir, "origin/main": `git branch -vv`. Salida:
+
+    ```         
+    * main 7b5c4c4 [origin/main] Initial commit
+    ```
+### Ver el estado del repo mientras estamos trabajando en él
+
+-   Podemos usar `git status` para ver el estado actual de nuestro repo. Salida:
+
+    ```         
+    On branch main
+    Your branch is up to date with 'origin/main'.
+
+    Changes not staged for commit:
+      (use "git add <file>..." to update what will be committed)
+      (use "git checkout -- <file>..." to discard changes in working directory)
+
+        modified:   README.md
+
+    Untracked files:
+      (use "git add <file>..." to include in what will be committed)
+
+        .gitignore
+        codigo.R
+        marcos_aprende_git.Rproj
+
+    no changes added to commit (use "git add" and/or "git commit -a")
+    ```
+
+-   Podemos usar `git diff README.md` para ver las diferencias. Además de estar marcado con colores, líneas nuevas tienen `+`, eliminadas `-`, y las que siguen iguales, nada. Salida:
+
+    ```         
+    diff --git a/README.md b/README.md
+    index 06e3dce..9ef6118 100644
+    --- a/README.md
+    +++ b/README.md
+    @@ -1,2 +1,8 @@
+    -# marcos_aprende_git
+    +# Un repo para aprender
+     Voy a utilizar este repo para preparar el material del taller sobre RStudio, Git y GitHub.
+    +
+    +Agrego una lista para seguir modificando este archivo:
+    +
+    +- Primero
+    +- Segundo
+    +- Tercero
+    ```
+
+-   Algunos detalles adicionales de esta salida:
+
+    -   La primera línea indica que Git está haciendo algo parecido a lo que hace el comando de Unix diff para comparar versiones.
+    -   La segunda línea muestra los identificadores (06e3dce y 9ef6118) de las versiones que está comparando.
+    -   La tercera y cuarta línea muestran otra vez el archivo comparado.
+
+### Hacer un commit
+
+-   Poner en stage es un poco más complicado en la terminal. Con `git add <nombre_archivo>` se pone en stage a cada archivo nuevo o modificado, con `git rm <nombre_archivo>` se pone en stage a archivos eliminados.
+-   Yo muchas veces tomo el atajo de hacer `git add .`, donde el punto pone en stage a todos los archivos del repo.
+-   Para hacer el commit, `git commit -m <mensaje del commit>`. Si no usamos la opción -m, se abre un archivo en el editor de texto que tengamos por defecto para poder escribir el mensaje allí.
+
+```{=html}
+<!-- **RESOLVER**  
+Verificar las sentencias y copiar los outputs
+-->
+```
+```         
+git add .
+
+git status
+
+On branch main
+Your branch is up to date with 'origin/main'.
+
+Changes to be committed:
+  (use "git reset HEAD <file>..." to unstage)
+
+    new file:   .gitignore
+    modified:   README.md
+    new file:   codigo.R
+    new file:   marcos_aprende_git.Rproj
+
+git commit -m "Amplié el README y agregué código"
+
+>>> git commit -F /tmp/RtmpFI7M9Q/git-commit-message-633651c98ace.txt
+[main bbc89e7] Amplié el README y agregué código.
+ 4 files changed, 27 insertions(+), 1 deletion(-)
+ create mode 100644 .gitignore
+ create mode 100644 codigo.R
+ create mode 100644 marcos_aprende_git.Rproj
+```
+
+-   Si hacemos `git status` después de hacer el commit, vemos que no hay nuevos cambios después de esta última revisión (nos dice *nothing to commit*) y nos avisa que nuestro repo local está adelantado del repo en GitHub por un commit (es porque este cambio sólo está en nuestra compu, no en GitHub).
+
+```         
+git status
+
+On branch main
+Your branch is ahead of 'origin/main' by 1 commit.
+  (use "git push" to publish your local commits)
+
+nothing to commit, working tree clean
+```
+
+-   Podemos ver la historia reciente de nuestro repo en Git con `git log`:
+
+```         
+git log
+
+commit bbc89e7f9ddec0e330ceeb74c054cc003c2f3864 (HEAD -> main)
+Author: mpru <marcosprunello@gmail.com>
+Date:   Thu Jan 23 18:06:02 2020 -0300
+
+    Amplié el README y agregué código.
+
+commit 7b5c4c44b12236b0fe391b3a15783a1959ac2e57 (origin/main, origin/HEAD)
+Author: Marcos Prunello <marcosprunello@gmail.com>
+Date:   Wed Jan 22 08:47:06 2020 -0300
+
+    Initial commit
+```
+
+-   **Observación**: si no ponemos nada en stage y tratamos de hacer commit, Git va a requerir que usemos git commit -a (o git commit --all) para incluir todos los archivos en el commit.
+
+### Revertir cambios
+
+-   Para revertir un archivo a su estado en un commit anterior, debemos tomar nota del SHA del commit deseado (por ejemplo, `bbc89e7` en mi ejemplo).
+-   En la terminal podemos ver cómo era el archivo en el pasado (y así, por ejemplo, copiar la parte que nos interese y pegar en el archivo que estamos editando ahora): `git show bbc89e7 README.md`
+-   Podemos quedarnos con la versión completa de ese archivo tal como estaba en ese commit: `git checkout bbc89e7 README.md`
+-   En ambos casos, se termina poniendo en stage y haciendo commit.
+
+### Pull y push
+
+-   Los comandos para realizar estas operaciones son `git pull` y `git push`.
+
+
+## git clients
+
+-   Como hemos visto, RStudio nos facilita con sus menúes y ventanas muchas de las actividades que necesitamos hacer con Git.
+-   Sin embargo, hay cosas que no están incorporadas y que para hacerlas hay que usar la línea de comandos o instalar un *git client*, es decir, una interfaz gráfica de usuario.
+-   Se trata de un programa con menúes y botones que permite realizar las actividades involucradas en git y que, además, presenta diagramas que posibilitan la visualización de la evolución de las distintas versiones. Algunas opciones son [GitKraken](https://www.gitkraken.com/) y [SourceTree](https://www.sourcetreeapp.com/).
+
+```{r, fig.show='hold', echo=FALSE, out.width='60%', fig.caption = "Captura de pantalla de SourceTree."}
+knitr::include_graphics('imagenes/sourcetree.png')
+```
+
+```{r, fig.show='hold', echo=FALSE, out.width='60%', fig.caption = "Captura de pantalla de GitKraken."}
+knitr::include_graphics('imagenes/gitkraken.png')
+```
+
+## Branches
+
+-   En algunas oportunidades se desea realizar cambios en el código para explorar cosas sobre las cuales no estamos muy seguros o para probar el agregado de nuevas características al proyecto.
+-   Esta exploración o desarrollo puede llevar tiempo y por ahí no sabemos si va a funcionar o no.
+-   Entonces conviene dejar la versión actual (en la que está todo completo y andando) sin tocar y hacer un *detour* para experimentar por otro lado.
+-   Para esto existen las **branches**.
+
+::: {.alert .alert-success}
+Un **branch** o **rama** es una vía de desarrollo en paralelo del proyecto que uno puede abrir temporalmente para desviarse de la línea principal de desarrollo, pudiendo volver a él con un *merge* de lo que hicimos en la nueva branch con la principal, o descartando este nuevo camino en cualquier momento.
+:::
+
+```{r, fig.show='hold', echo=FALSE, out.width='50%'}
+knitr::include_graphics('imagenes/branches.png')
+```
+
+-   Sin darnos cuenta, ya estuvimos usando *branches*, porque todo repo tiene una *branch* por default que se llama **main**. Durante todo este tiempo, estuvimos implementando cambios en la **main branch** tanto de nuestro repo local como en el de GitHub.
+-   Podemos ver todas las branches que existen en el repo en la pestaña Git de RStudio y pasarnos de una a otra:
+
+```{r, fig.show='hold', echo=FALSE, out.width='50%', fig.cap="Hasta hace poco la rama principal por default se llamaba *master* y ahora cambió a *main*. Por eso en algunas figuras verás *master* en lugar de *main*."}
+knitr::include_graphics('imagenes/branch.png')
+```
+
+-   Además, se puede crear una nueva branch en RStudio con la ayuda de este botoncito:
+
+```{r, fig.show='hold', echo=FALSE, out.width='50%'}
+knitr::include_graphics('imagenes/branch7.png')
+```
+
+-   Sin embargo, la terminal es mucho más flexible para manejarse con estas cosas de Git, por eso vamos a mostrar todo esto desde ahí.
+-   Después de todo, si te encontrás en la necesidad de usar *branches*, ya podés considerarte un usuario *avanzado*: seguramente ya usás la consola o vas a necesitarla en cualquier momento.
+
+### Crear una nueva branch
+
+-   `git branch` lista todas las branches que existen ahora.
+
+```         
+git branch
+* main
+```
+
+-   Para crear una nueva y comenzar a trabajar en ella, elegir un nombre (por ejemplo "nueva-rama") y hacer `git branch nueva-rama`.
+-   Se dice *checkout* cuando uno elige una branch para trabajar en ella. Para activar la que hemos creado recién para que podamos trabajar en ella hacemos: `git checkout nueva-rama`. Aparece: `Switched to a new branch 'nueva-rama'`.
+-   `git checkout -b nueva-rama` resume ambos pasos anteriores en uno solo:
+
+```         
+git checkout -b nueva-rama
+Switched to a new branch 'nueva-rama'
+```
+
+-   Si hacemos `git branch`, vemos que tenemos dos branches. El asterisco indica en cuál estamos trabajando ahora:
+
+```         
+git branch
+  main
+* nueva-rama
+```
+
+-   Ahora nos ponemos a trabajar como siempre, hacemos los cambios en los archivos en esa carpeta local. Cada tanto, hacemos los commits: `git status`, `git add .`, `git commit -m <mensaje>`:
+
+```         
+git status
+On branch nueva-rama
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+
+    practicando_branches.txt
+
+nothing added to commit but untracked files present (use "git add" to track)
+
+git add practicando_branches.txt 
+git commit -m "nuevo archivo"
+[nueva-rama 2e25439] nuevo archivo
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+ create mode 100644 practicando_branches.txt
+```
+
+-   Podemos volver a la main branch con `git checkout main`. `git branch` tiene que mostrar el asterisco en main. Para no confundirse: si hice cambios en `nueva-rama` y salgo a la main branch, en el explorador de archivos de mi compu no voy a ver los cambios si abro un archivo modificado o si creé uno nuevo. Si vuelvo a la branch donde trabajé con `git checkout nueva-rama`, ahí sí voy a ver las modificaciones en el explorador de archivos de la compu.
+
+````{=html}
+<!-- 
+- Otra alternativa es crear una nueva en la página del repo en GitHub, y luego traerla al repo local con: 
+
+```
+git fetch <repo remoto> <nombre branch en remoto>:<nombre nuevo para branch local (generalmente el mismo)>
+git checkout <nombre nuevo>
+pero no me fije si queda vinculada o hay que hacerle un upstream o algo asi q no pongo esto
+```
+
+https://stackabuse.com/git-fetch-a-remote-branch/
+-->
+````
+
+### Sincronizar con GitHub
+
+-   Para hacer push y poder enviar a GitHub las modificaciones hechas en esta nueva branch, primero hay que avisarle de su existencia.
+-   Es decir, hay que setear un *upstream remote* para esta nueva branch, haciendo `git push -u origin nueva-rama` (`git push -u` equivale a `git push --set-upstream`).
+
+```         
+git push -u origin nueva-rama
+
+Counting objects: 3, done.
+Delta compression using up to 8 threads.
+Compressing objects: 100% (2/2), done.
+Writing objects: 100% (3/3), 284 bytes | 284.00 KiB/s, done.
+Total 3 (delta 1), reused 0 (delta 0)
+remote: Resolving deltas: 100% (1/1), completed with 1 local object.
+remote: 
+remote: Create a pull request for 'nueva-rama' on GitHub by visiting:
+remote:      https://github.com/mpru/marcos_aprende_git/pull/new/nueva-rama
+remote: 
+To https://github.com/mpru/marcos_aprende_git
+ * [new branch]      nueva-rama -> nueva-rama
+Branch 'nueva-rama' set up to track remote branch 'nueva-rama' from 'origin'.
+```
+
+```{r, fig.show='hold', echo=FALSE, out.width='100%'}
+knitr::include_graphics('imagenes/branch4.png')
+```
+
+-   Esto se hace una sola vez, luego seguimos mandando sucesivos cambios con `git push` como hacemos habitualmente[^2].
+
+[^2]: En versiones anteriores de Git, no hacía falta setear el remote para la branch, porque si no existía en GitHub, la creaba automáticamente. Esto ya no es así por default, pero si se desea tener ese comportamiento hay que configurar: `git config --global push.default current`.
+
+### Merge con la main branch
+
+-   Ahora tenemos dos ramas, dos vías paralelas de trabajo. Seguramente en algún momento nos interesará integrarlas.
+-   Integrar branches se conoce como *merge*.
+-   Esto puede darse en dos direcciones distintas:
+
+#### Traer novedades de la main a mi *nueva-rama*
+
+-   Si estuvimos trabajando bastante en una branch, tal vez otros estuvieron haciendo más trabajo en la main.
+-   En nuestro ejemplo, alguien creó el archivo `mas-trabajo.txt` en la main.
+-   Conviene cada tanto ir trayendo las cosas nuevas de la *main* a nuestra branch, para que no quede muy desactualizada. Si eso pasa, crecen las chances de que lo que hagamos en la *nueva-rama* ya no funcione con el resto de lo que se hizo en la *main*, o haya que arreglar muchas cosas para que sí funcione.
+-   Para traer ese trabajo nuevo a nuestra branch, estando en ella, hay que hacer `git merge main`:
+
+```         
+ls
+
+codigo.R  otro_archivo.R README.md marcos_aprende_git.Rproj  practicando_branches.txt
+
+git merge main -m "traigo desde la main"
+
+Merge made by the 'recursive' strategy.
+ mas-trabajo.txt | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+ create mode 100644 mas-trabajo.txt
+
+ls
+codigo.R  mas-trabajo.txt  practicando_branches.txt marcos_aprende_git.Rproj  
+otro_archivo.R   README.md
+```
+
+-   Es posible que en la *main* hayan modificado los mismos archivos que nosotros en nuestra *nueva-rama*. Si es así, debemos solucionar los conflictos de versiones ocasionados. Por eso es importante hacer esto de manera frecuente.
+
+#### Mandar lo de mi *nueva-rama* a la main
+
+-   Cuando terminamos de trabajar en nuestra *nueva-rama* y ya estamos seguros de querer enviar lo que hicimos a la *main* branch, hacemos *merge* desde la *main* y luego la eliminamos:
+
+```         
+git checkout main
+
+Switched to branch 'main'
+Your branch is ahead of 'origin/main' by 1 commit.
+  (use "git push" to publish your local commits)
+
+git merge nueva-rama
+
+Updating 27b1921..1c8fe23
+Fast-forward
+ practicando_branches.txt | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+ create mode 100644 practicando_branches.txt
+```
+
+<!-- aca tenia un git pull, pero me parece que no va -->
+
+-   Envío estos cambios a GitHub:
+
+```         
+git push
+
+Counting objects: 4, done.
+Delta compression using up to 8 threads.
+Compressing objects: 100% (4/4), done.
+Writing objects: 100% (4/4), 481 bytes | 481.00 KiB/s, done.
+Total 4 (delta 2), reused 0 (delta 0)
+remote: Resolving deltas: 100% (2/2), completed with 1 local object.
+To https://github.com/mpru/marcos_aprende_git
+   ef4578e..1c8fe23  main -> main
+```
+
+```{r, fig.show='hold', echo=FALSE, out.width='50%'}
+knitr::include_graphics('imagenes/branch5.png')
+```
+
+-   Si ya no voy a usar más a la *nueva-branch*, la puedo borrar, teniendo en cuenta dos cosas:
+
+    -   No se puede borrar una branch estando en ella, hay que borrarla desde la main.
+    -   Git no te deja borrar una branch que no haya sido mergeada.
+
+<br>
+
+-   El comando para borrar una branch es `git branch -d nueva-rama`:
+
+```         
+git branch -d nueva-rama
+warning: not deleting branch 'nueva-rama' that is not yet merged to
+         'refs/remotes/origin/nueva-rama', even though it is merged to HEAD.
+error: The branch 'nueva-rama' is not fully merged.
+If you are sure you want to delete it, run 'git branch -D nueva-rama'.
+```
+
+-   El mensaje anterior significa que si bien en mi repo local hice el merge, el repo remoto todavía no se enteró, por lo cual *nueva-rama* no está *fully-merged*. Tengo dos opciones para solucionarlo:
+
+    1.  Hacer un push más desde *nueva-rama* para que el repo remoto se dé por enterado y luego borrarla:
+
+    ```         
+    git checkout nueva-rama 
+
+    Switched to branch 'nueva-rama'
+    Your branch is ahead of 'origin/nueva-rama' by 2 commits.
+      (use "git push" to publish your local commits)
+
+    git push
+
+    Total 0 (delta 0), reused 0 (delta 0)
+    To https://github.com/mpru/marcos_aprende_git
+       2e25439..1c8fe23  nueva-rama -> nueva-rama
+
+    git checkout main
+
+    Switched to branch 'main'
+    Your branch is up to date with 'origin/main'.
+
+    git branch -d nueva-rama
+    Deleted branch nueva-rama (was 1c8fe23).
+    ```
+
+    2.  Eliminarla a la fuerza con la opción `-D` (en mayúscula), desde la main:
+
+    ```         
+    git branch -D nueva-rama
+    ```
+
+-   **¡Atención!** Eliminar una branch en el repo local no la elimina en GitHub y viceversa. Son virtualmente dos objetos distintos, sólo que hicimos que estén vinculadas. Para borrar también *nueva-branch* en el remoto:
+
+```         
+git push origin --delete nueva-rama
+To https://github.com/mpru/marcos_aprende_git
+ - [deleted]         nueva-rama
+```
+
+```{r, fig.show='hold', echo=FALSE, out.width='50%'}
+knitr::include_graphics('imagenes/branch6.png')
+```
+
+## Colaborar con el repo de otra persona haciendo una branch
+
+-   Vamos a retomar [el tema de las colaboraciones](#colaborar), viéndolo de forma más completa, haciendo *fork & clone* y usando *branches*.
+
+-   Como mencionamos antes, si hemos **forkeado** un repo para hacer una contribución, no conviene trabajar en la main branch del mismo, ya que en realidad no formamos parte de la línea principal de desarrollo de dicho repo.
+
+-   Se acostumbra, en cambio, a crear una nueva branch luego de hacer el fork, y hacer un pull request desde la misma.
+
+### Configuraciones
+
+-   Retomemos el ejemplo visto, donde **yo**, con el usuario **mpru** (github.com/mpru), voy a contribuir al repo *ProyectoInteresante* de la cuenta de *AprendizGit* (github.com/AprendizGit2). A este repo se le suele decir **upstream repo**.
+
+-   Primero, hacemos un *fork* del repo en GitHub (`AprendizGit2/ProyectoInteresante`), creando una copia que ahora me pertenece a mí, a la que se le dice **origin repo**: `AprendizGit2/ProyectoInteresante`.
+
+-   Luego, clonar el repo forkeado (`AprendizGit2/ProyectoInteresante`) para crear mi **repo local**:
+
+```         
+git clone https://github.com/mpru/ProyectoInteresante.git
+Cloning into 'ProyectoInteresante'...
+remote: Enumerating objects: 9, done.
+remote: Counting objects: 100% (9/9), done.
+remote: Compressing objects: 100% (6/6), done.
+remote: Total 9 (delta 1), reused 0 (delta 0), pack-reused 0
+Unpacking objects: 100% (9/9), done.
+```
+
+-   Este es el estado de situación hasta el momento:
+
+```{r, fig.show='hold', echo=FALSE, out.width='50%'}
+knitr::include_graphics('imagenes/fork-no-upstream-sad.jpeg')
+```
+
+-   Ya estoy en condiciones de trabajar en mi repo local y mandar los cambios al repo remoto en mi cuenta de GitHub haciendo *commits* y *pushes*.
+
+-   ¿Pero qué pasa si mientras yo estuve trabajando, **AprendizGit2** también estuvo haciendo cambios en su repo, `AprendizGit2/ProyectoInteresante`?
+
+-   En este caso, mi repo local no coincide con la última versión que **AprendizGit2** tiene de su `ProyectoInteresante`.
+
+-   Antes de poder hacer mis contribuciones y crear un *pull request*, tengo que actualizar mi repo con un *pull* directamente del repo de *AprendizGit2*.
+
+-   Para que esta sincronización se pueda hacer, hay que setear el repo `AprendizGit2/ProyectoInteresante` como el *upstream remote* de mi copia local, de forma que quede establecida la conexión que falta entre ellos:
+
+```{r, fig.show='hold', echo=FALSE, out.width='50%'}
+knitr::include_graphics('imagenes/fork-them-pull-request.jpeg')
+```
+
+-   Miro a qué repos remotos está asociado el mío local, sólo al que tengo forkeado en mi GitHub (*origin*):
+
+```         
+git remote -v
+
+origin  https://github.com/mpru/ProyectoInteresante (fetch)
+origin  https://github.com/mpru/ProyectoInteresante (push)
+```
+
+-   Establezco el *upstream remote*, actualizo la información que mi repo local tiene sobre el *upstream* con *fetch* y pido que todos mis *pulls* provengan de la *main branch* del *upstream remote* en lugar de que vengan desde la *main branch* de mi repo forkeado (*origin*):
+
+```         
+git remote add upstream https://github.com/AprendizGit2/ProyectoInteresante.git
+git fetch upstream
+git branch -u upstream/main
+```
+
+-   Controlo que haya funcionado:
+
+```         
+git remote -v
+
+origin  https://github.com/mpru/ProyectoInteresante (fetch)
+origin  https://github.com/mpru/ProyectoInteresante (push)
+upstream    https://github.com/AprendizGit2/ProyectoInteresante.git (fetch)
+upstream    https://github.com/AprendizGit2/ProyectoInteresante.git (push)
+```
+
+### Flujo de trabajo
+
+-   Antes de empezar a trabajar, actualizo la info que tiene mi repo del *upstream* y hago un *pull* desde el upstream para traer los cambios nuevos que pudieran haber:
+
+```         
+git pull upstream main --ff-only
+```
+
+-   Si hubo cambios puedo enviarlos a mi repo remoto en GitHub (`mpru/ProyectoInteresante`) para que los 3 repos estén actualizados (le aclaro que el push va a origin, porque con la configuración anterior git push trataría de ir al upstream y no va a tener permiso para eso):
+
+```         
+git push origin main
+```
+
+-   Listo, a trabajar. Pero no en la *main branch*, esa no se toca. Si quiero hacer cambios, los hago en una nueva branch:
+
+```         
+git checkout -b micontrib
+git branch
+
+  main
+* micontrib
+```
+
+-   Ahora modifico todo lo que necesite, voy haciendo *commits*:
+
+```         
+git add .
+git commit -m "hice lo que tenia que hacer"
+```
+
+-   Puedo hacer *push* a mi repo en GitHub, `mpru/ProyectoInteresante`, pero al menos la primera vez lo voy a tener que hacer así para que allá en GitHub se enteren de que localmente tengo una nueva branch y es el destino de mis cambios:
+
+```         
+git push -u origin micontrib
+```
+
+-   Ya podemos ver que la branch *micontrib* en GitHub tiene los nuevos cambios:
+
+```{r, fig.show='hold', echo=FALSE, out.width='50%'}
+knitr::include_graphics('imagenes/branch8.png')
+```
+
+### Pull request
+
+-   Estamos de condiciones de sugerirle a **AprendizGit2** que mire lo que hicimos en nuestra branch *micontrib* y que lo incorpore en su *main branch* a través de un *merge*. Es decir, vamos a hacer un **pull request**.
+
+-   Al hacer clic en *Compare and pull request*, podemos ver las diferencias entre nuestra branch y la main del repo original *ProyectoInteresante* del usuario *AprendizGit* y determinar si son compatibles:
+
+```{r, fig.show='hold', echo=FALSE, out.width='50%'}
+knitr::include_graphics('imagenes/branch9.png')
+```
+
+-   Hacemos clic en *Create Pull Request* para pedirle a *AprendizGit* que tome nuestra contribución:
+
+```{r, fig.show='hold', echo=FALSE, out.width='50%'}
+knitr::include_graphics('imagenes/branch10.png')
+```
+
+-   Ahora nos resta esperar que *AprendizGit* tome nuestra contribución o dé lugar a una discusión en la página de este pull request. Así es como le aparece a AprendizGit, y cómo hace para aceptar la contribución:
+
+```{r, fig.show='hold', echo=FALSE, out.width='100%'}
+knitr::include_graphics('imagenes/branch11.png')
+```
+
+-   Ya que mi contribución fue aceptada, puedo eliminar mi branch *micontrib* tanto en el repo local como en mi copia remota:
+
+```         
+git branch -d micontrib
+git push origin --delete micontrib
+```
+
+-   Si quiero seguir aportando a este repo de AprendizGit, debo actualizar mi copia local con estos cambios y todos los otros que haya podido hacer AprendizGit:
+
+```         
+git fetch upstream
+git pull upstream main --ff-only
+git push origin main
+```
+
+## Conflictos
+
+-   Cuando se trabaja en equipo con un repo central en GitHub, cada uno hace *pull* para tomar la última versión del repo, implementa sus modificaciones y luego hace *push* para mandar los cambios a GitHub.
+-   Pero en ese interín, la versión de GitHub pudo haber sufrido modificaciones por la contribución de otra persona.
+-   En esos casos, Git nos obliga a hacer *pull* antes de *push*, para que tengamos en nuestro repo local la última versión. En ese proceso, Git automáticamente hace un merge de la versión de GitHub con la nuestra que tiene nuestros cambios.
+-   Si las modificaciones se dieron en distintos archivos o en distintas partes de un mismo archivo, está todo bien.
+-   Pero si en GitHub hubo una modificación en la misma parte del archivo que cambié localmente, se produce un **conflicto** (de versiones).
+-   A estos conflictos hay que resolverlos manualmente, Git no toma ninguna decisión por nosotros.
+-   Al contrario, nos muestra la versión nuestra y la versión remota, y nos pide que editemos *a mano* el archivo en conflicto para decidir cómo debe quedar.
+-   En [esta página](https://swcarpentry.github.io/git-novice/09-conflict/index.html) hay un ejemplo acerca de cómo se presenta un conflicto y cómo se puede solucionar.
 
