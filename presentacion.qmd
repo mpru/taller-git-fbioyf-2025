@@ -1,0 +1,24 @@
+---
+title: "Taller sobre Git + GitHub + RStudio"
+subtitle: "Área de Estadística y Procesamiento de Datos | FBioYF | UNR"
+author: "Marcos Prunello"
+format: 
+  revealjs:
+    transition: fade
+    slide-number: true
+footer: "[Volver al inicio](index.html)"
+logo: imagenes/logo.png
+---
+
+
+# Separador {background="#5B888C"}
+
+## Diapo 1
+
+texto
+
+## Diapo 2
+
+::: {.small}
+texto chico
+:::

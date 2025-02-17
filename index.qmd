@@ -1,0 +1,22 @@
+---
+title: "Git + GitHub + RStudio"
+subtitle: "Taller para el Área de Estadística y Procesamiento de Datos de la Facultad de Cs. Bioquímicas y Farmacéuticas de la Universidad Nacional de Rosario"
+author: "Marcos Prunello"
+date: today
+date-format: long
+---
+
+
+**En este taller vamos a ... COMPLETAR**
+
+En la sección [Preparativos](preparacion.html) vas a encontrar los materiales necesarios para seguir los ejemplos.
+
+![](images/flyer.jpeg){fig-align="center" width="40%"}
+
+### Presentador
+
+**Marcos Prunello:** Soy Licenciado en Estadística (UNR) y MSc in Biomedical Informatics (Stanford University). Me dedico a la vida universitaria, trabajando en cuestiones de Estadística y Ciencia de Datos en la FCEyE-UNR y Universidad Austral.
+
+### Licencia
+
+<a rel="license" href="https://creativecommons.org/licenses/by-sa/4.0/deed.es_ES"><img src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" alt="Creative Commons License" style="border-width:0"/></a><br /> Los materiales de esta charla están bajo la licencia <a rel="license" href="https://creativecommons.org/licenses/by-sa/4.0/deed.es_ES">Creative Commons Attribution-ShareAlike 4.0 International License</a>.

@@ -1,0 +1,44 @@
+[
+  {
+    "objectID": "preparacion.html",
+    "href": "preparacion.html",
+    "title": "Preparativos para el taller",
+    "section": "",
+    "text": "Volver arriba"
+  },
+  {
+    "objectID": "presentacion.html#diapo-1",
+    "href": "presentacion.html#diapo-1",
+    "title": "Taller sobre Git + GitHub + RStudio",
+    "section": "Diapo 1",
+    "text": "Diapo 1\ntexto"
+  },
+  {
+    "objectID": "presentacion.html#diapo-2",
+    "href": "presentacion.html#diapo-2",
+    "title": "Taller sobre Git + GitHub + RStudio",
+    "section": "Diapo 2",
+    "text": "Diapo 2\n\ntexto chico\n\n\n\n\n\nVolver al inicio"
+  },
+  {
+    "objectID": "taller-git.html",
+    "href": "taller-git.html",
+    "title": "Uso de Git + GitHub + RStudio",
+    "section": "",
+    "text": "Volver arriba"
+  },
+  {
+    "objectID": "taller-git-extra.html",
+    "href": "taller-git-extra.html",
+    "title": "Uso de Git + GitHub + RStudio",
+    "section": "",
+    "text": "Volver arriba"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Git + GitHub + RStudio",
+    "section": "",
+    "text": "En este taller vamos a … COMPLETAR\nEn la sección Preparativos vas a encontrar los materiales necesarios para seguir los ejemplos.\n\n\n\n\n\n\nPresentador\nMarcos Prunello: Soy Licenciado en Estadística (UNR) y MSc in Biomedical Informatics (Stanford University). Me dedico a la vida universitaria, trabajando en cuestiones de Estadística y Ciencia de Datos en la FCEyE-UNR y Universidad Austral.\n\n\nLicencia\n Los materiales de esta charla están bajo la licencia Creative Commons Attribution-ShareAlike 4.0 International License.\n\n\n\n\n Volver arriba"
+  }
+]

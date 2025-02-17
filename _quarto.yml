@@ -1,0 +1,40 @@
+project:
+  type: website
+  output-dir: docs
+
+website:
+  title: "Git + GitHub + RStudio"
+  back-to-top-navigation: true
+  page-footer: "Desarrollado por Marcos Prunello"
+  repo-url: https://github.com/mpru/taller-git-fbioyf-2025
+  repo-actions: [edit, source, issue]
+  navbar:
+    search: true
+    tools:
+      - icon: github
+        href: https://github.com/mpru/
+      - icon: linkedin
+        href: https://www.linkedin.com/in/mrqtsp/
+      - icon: twitter-x
+        href: https://twitter.com/mrqtsp
+    left:
+      - href: index.qmd
+        text: Home
+      - href: preparacion.qmd
+        text: "Preparativos"
+      - href: presentacion.qmd
+        text: "Intro"
+      - href: taller-git.qmd
+        text: "Paso a paso"
+      - href: taller-git-extra.qmd
+        text: "Más detalles"
+
+lang: es
+
+format:
+  html:
+    theme: sandstone
+    css: styles.css
+    toc: true
+
+
