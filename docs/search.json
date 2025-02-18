@@ -49,25 +49,88 @@
     "text": "6 Eliminar credenciales (opcional)\n\nSi después de realizar el taller necesitás borrar las credenciales de la compu que usaste, podés utilizar:\n\n\ngitcreds_delete()"
   },
   {
-    "objectID": "presentacion.html#diapo-1",
-    "href": "presentacion.html#diapo-1",
+    "objectID": "presentacion.html#investigación-o-trabajo-reproducible",
+    "href": "presentacion.html#investigación-o-trabajo-reproducible",
     "title": "Taller sobre Git + GitHub + RStudio",
-    "section": "Diapo 1",
-    "text": "Diapo 1\ntexto"
+    "section": "Investigación o trabajo reproducible",
+    "text": "Investigación o trabajo reproducible\n\nLa investigación científica (y todo trabajo que pretenda ser serio) se basa en un principio fundamental: garantizar la posibilidad de reproducir los resultados alcanzados.\n\n\n\n\n\n\n\nImportante\n\n\nEn el análsis de datos se considera que una investigación o trabajo es reproducible cuando los resultados exactos pueden reproducirse si se tiene acceso a los datos, al software y al código usados."
   },
   {
-    "objectID": "presentacion.html#diapo-2",
-    "href": "presentacion.html#diapo-2",
+    "objectID": "presentacion.html#requisitos-de-la-investigación-reproducible",
+    "href": "presentacion.html#requisitos-de-la-investigación-reproducible",
     "title": "Taller sobre Git + GitHub + RStudio",
-    "section": "Diapo 2",
-    "text": "Diapo 2\n\ntexto chico"
+    "section": "Requisitos de la investigación reproducible",
+    "text": "Requisitos de la investigación reproducible\n\nEn la práctica, algunas organizaciones (por ejemplo, agencias de financiamiento, editores de revistas) exigen particularmente:\n\nQue los datos y el código se publiquen en algún repositorio.\nQue sea posible crear las tablas y gráficos derivados de los datos ejecutando el código.\nQue se enumeren los detalles sobre el sistema que se utiliza para ejecutar el análisis: sistema operativo, parches, semillas de números aleatorios, versiones específicas del software o paquetes.\nQue el código esté escrito de una manera que se pueda entender fácilmente."
+  },
+  {
+    "objectID": "presentacion.html#requisitos-de-la-investigación-reproducible-1",
+    "href": "presentacion.html#requisitos-de-la-investigación-reproducible-1",
+    "title": "Taller sobre Git + GitHub + RStudio",
+    "section": "Requisitos de la investigación reproducible",
+    "text": "Requisitos de la investigación reproducible\n\n\nQue los informes y documentos de salida también se generen utilizando código (es decir, se proporcione un archivo o archivos que, cuando se ejecutan, importan los datos, producen todos los resultados, insertan los resultados en el texto del informe y dan formato al informe).\n\n\n\nThe Turing Way project illustration by Scriberia. Used under a CC-BY 4.0 licence. DOI: 10.5281/zenodo.3332807."
+  },
+  {
+    "objectID": "presentacion.html#beneficios-de-la-investigación-reproducible",
+    "href": "presentacion.html#beneficios-de-la-investigación-reproducible",
+    "title": "Taller sobre Git + GitHub + RStudio",
+    "section": "Beneficios de la investigación reproducible",
+    "text": "Beneficios de la investigación reproducible\n\nFacilita la verificación de la investigación de forma independiente.\nFacilita la extensión y continuación del trabajo.\nGenera mayor eficiencia al producir código reutilizable (aunque al principio puede parecer que realizar análisis de manera reproducible y automatizada lleva más tiempo y es más difícil).\nIncrementa las chances de que la investigación sea correcta."
+  },
+  {
+    "objectID": "presentacion.html#beneficios-de-la-investigación-reproducible-1",
+    "href": "presentacion.html#beneficios-de-la-investigación-reproducible-1",
+    "title": "Taller sobre Git + GitHub + RStudio",
+    "section": "Beneficios de la investigación reproducible",
+    "text": "Beneficios de la investigación reproducible"
+  },
+  {
+    "objectID": "presentacion.html#algunos-pilares-de-la-investigación-reproducible",
+    "href": "presentacion.html#algunos-pilares-de-la-investigación-reproducible",
+    "title": "Taller sobre Git + GitHub + RStudio",
+    "section": "Algunos pilares de la investigación reproducible",
+    "text": "Algunos pilares de la investigación reproducible\n\nAutomatización de tareas relacionadas a la comunicación y publicación de resultados.\nCuidadosa importación de datos en el software.\nOrganización del trabajo de análisis de datos en**proyectos*.\nImplementación de un sistema de control de versiones."
+  },
+  {
+    "objectID": "presentacion.html#sistemas-de-control-de-versiones-1",
+    "href": "presentacion.html#sistemas-de-control-de-versiones-1",
+    "title": "Taller sobre Git + GitHub + RStudio",
+    "section": "Sistemas de control de versiones",
+    "text": "Sistemas de control de versiones\n\nEn cualquier proyecto de análisis de datos enseguida se generan muchísimos archivos, que van evolucionando en el tiempo, generando distintas versiones."
+  },
+  {
+    "objectID": "presentacion.html#sistemas-de-control-de-versiones-2",
+    "href": "presentacion.html#sistemas-de-control-de-versiones-2",
+    "title": "Taller sobre Git + GitHub + RStudio",
+    "section": "Sistemas de control de versiones",
+    "text": "Sistemas de control de versiones\n\n\nComo si fuera poco, estos contenidos generalmente deben ser compartidos o se producen trabajando colaborativamente con otras personas.\nSin una forma organizada de manejar todo esto, es fácil caer en un caos de archivos, versiones, mails con adjuntos, etc., que le roban tiempo al trabajo principal y pueden reducir la calidad del producto final.\nContamos con algunos servicios de almacenamiento en la nube como Google Drive o Onedrive que ayudan a tener archivos sincronizados entre distintas computadoras. Sin embargo, las herramientas que ofrecen para la administración de versiones y el trabajo en equipo son limitadas.\nPara esto existen específicamente los sistemas de control de versiones."
+  },
+  {
+    "objectID": "presentacion.html#sistemas-de-control-de-versiones-3",
+    "href": "presentacion.html#sistemas-de-control-de-versiones-3",
+    "title": "Taller sobre Git + GitHub + RStudio",
+    "section": "Sistemas de control de versiones",
+    "text": "Sistemas de control de versiones\n\n\nEn este taller veremos los pasos iniciales en el uso de un sistema de este tipo llamado Git y un servicio web de hosting llamado GitHub.\nDebemos notar que para alguien que trabaja solo en proyectos de pequeña escala, tal vez no valga la pena pasar por este aprendizaje que puede ser un poco doloroso.\nPero incursionar en esto se vuelve necesario a medida que deseamos interactuar con la comunidad, participar en proyectos de mayor dimensión, tomar herramientas metodológicas producidas por otras personas, integrar proyectos comunitarios de enseñanza, publicar nuestro trabajo de investigación o nuestros desarrollos, sumar herramientas valoradas en el mercado laboral, etc."
   },
   {
     "objectID": "presentacion.html#qué-es-control-de-versiones",
     "href": "presentacion.html#qué-es-control-de-versiones",
     "title": "Taller sobre Git + GitHub + RStudio",
     "section": "Qué es control de versiones",
-    "text": "Qué es control de versiones\n\nUn sistema de control de versiones toma inicialmente una versión de un documento y luego registra los cambios que sufre el mismo a lo largo del tiempo. Es posible imaginarlo como una filmación: podemos retroceder a cualquier punto de la historia del documento y ver cómo cambió el mismo hasta llegar a su estado actual.\nSi más de una persona trabaja en el mismo documento, el sistema de control de versiones puede integrar las distintas versiones en una nueva.\n\n\n\nCada una de estas versiones recibe el nombre de commit y el sistema registra información útil (metadata) sobre las mismas.\nEl conjunto completo de todos los commits, su metadata y todos los archivos involucrados en el control de versiones de un proyecto, recibe el nombre de repo (repositorio, repository). Podemos imaginarnos un repo sencillamente como una carpeta de la computadora que sabe cómo guardar todo eso.\nEl sistema provee herramientas para mantener sincronizados los repos en distintas computadoras o servicios de hosting, facilitando la colaboración entre personas.\n\n\n\n\n\n\n\nBeneficios de emplear un sistema de control de versiones\n\n\n\nHace que pensemos en la organización y distribución de nuestro trabajo como una parte integrada al mismo, sin que quede descuidada y sea realizada a los ponchazos.\nLa colaboración entre personas sea hace de forma estructurada, con herramientas para la comunicación, el trabajo a destiempo o en simultáneo y la integración de versiones.\nAutomáticamente disponemos de presencia online para nuestro proyecto con su propia página web, que podemos optar que sea privada o pública para inmediata difusión.\nSi estamos desarrollando alguna pieza de software (como un paquete de R o una librería de Python), lo podemos compartir por este medio y cualquier persona lo puede descargar e instalar e incluso realizar aportes, detectar bugs, incluir sugerencias, etc.\nPermite publicar el código y los resultados que acompañan a nuestras publicaciones, algo de vital importancia para aquellos editores que requieren adherencia a los principios de la investigación reproducible.\nGuarda de forma organizada viejas versiones de los archivos indefinidamente, pudiendo volver a cualquier de ellas cuando queramos, compararlas entre sí, agregar comentarios, etc."
+    "text": "Qué es control de versiones\n\nUn sistema de control de versiones toma inicialmente una versión de un documento y luego registra los cambios que sufre el mismo a lo largo del tiempo.\nSi más de una persona trabaja en el mismo documento, el sistema de control de versiones puede integrar las distintas versiones en una nueva."
+  },
+  {
+    "objectID": "presentacion.html#commits-y-repos",
+    "href": "presentacion.html#commits-y-repos",
+    "title": "Taller sobre Git + GitHub + RStudio",
+    "section": "Commits y repos",
+    "text": "Commits y repos\n\n\nCada una de estas versiones recibe el nombre de commit y el sistema registra información útil (metadata) sobre las mismas.\nEl conjunto completo de todos los commits, su metadata y todos los archivos involucrados en el control de versiones de un proyecto, recibe el nombre de repo (repositorio, repository).\nPodemos imaginarnos un repo sencillamente como una carpeta de la computadora que sabe cómo guardar todo eso.\nEl sistema provee herramientas para mantener sincronizados los repos en distintas computadoras o servicios de hosting, facilitando la colaboración entre personas."
+  },
+  {
+    "objectID": "presentacion.html#beneficios-de-emplear-un-sistema-de-control-de-versiones",
+    "href": "presentacion.html#beneficios-de-emplear-un-sistema-de-control-de-versiones",
+    "title": "Taller sobre Git + GitHub + RStudio",
+    "section": "Beneficios de emplear un sistema de control de versiones",
+    "text": "Beneficios de emplear un sistema de control de versiones\n\n\nHace que pensemos en la organización y distribución de nuestro trabajo.\nLa colaboración entre personas sea hace de forma estructurada.\nAutomáticamente disponemos de presencia online para nuestro proyecto.\nSi estamos desarrollando alguna pieza de software (como un paquete de R o una librería de Python), lo podemos compartir por este medio.\nPermite publicar el código y los resultados que acompañan a nuestras publicaciones.\nGuarda de forma organizada versiones viejas de los archivos indefinidamente."
   },
   {
     "objectID": "presentacion.html#qué-es-git",
@@ -81,7 +144,14 @@
     "href": "presentacion.html#qué-es-github",
     "title": "Taller sobre Git + GitHub + RStudio",
     "section": "Qué es GitHub",
-    "text": "Qué es GitHub\n\n\n\n\n\n\n\n\n\n\nGitHub es una interfaz gráfica online que complementa a Git y que provee un mecanismo de distribución para los repos.\nPara llevarlo a terreno conocido, GitHub es a Git lo que RStudio es a R (más o menos).\nPodemos usar Git sin GitHub, pero el último agrega muchas herramientas útiles.\nGitHub es el servicio de hosting que utilizaremos para que nuestro proyecto tenga presencia online, permitiéndole a otras personas explorar los archivos, su historia, sincronizarse con la versión actual, proponer y realizar cambios, etc.\nHay otras plataformas que cumplen esta función, como GitLab or BitBucket, pero en este taller nos centramos en esta.\nGit + GitHub es, por ejemplo, el entorno más popular para los desarrolladores de paquetes de R. \nEn este taller no vamos a hacer mucha distinción entre qué cosa es de Git y cuál otra es de GitHub.\nEs más, vamos a usar estas herramientas desde RStudio, sin hacer uso en ningún momento de la terminal. \nSin embargo, al final de este material hay una sección llamada git desde la terminal que muestra cómo se realizan las mismas tareas empleando sólo Git.\n\n\n\n\n\nVolver al inicio"
+    "text": "Qué es GitHub\n\n\n\nGitHub es una interfaz gráfica online que complementa a Git y que provee un mecanismo de distribución para los repos.\nPara llevarlo a terreno conocido, GitHub es a Git lo que RStudio es a R (más o menos).\nPodemos usar Git sin GitHub, pero el último agrega muchas herramientas útiles.\nGitHub es el servicio de hosting que utilizaremos para que nuestro proyecto tenga presencia online, permitiéndole a otras personas explorar los archivos, su historia, sincronizarse con la versión actual, proponer y realizar cambios, etc.\nHay otras plataformas que cumplen esta función, como GitLab or BitBucket, pero en este taller nos centramos en esta."
+  },
+  {
+    "objectID": "presentacion.html#git-github-rstudio",
+    "href": "presentacion.html#git-github-rstudio",
+    "title": "Taller sobre Git + GitHub + RStudio",
+    "section": "Git + GitHub + RStudio",
+    "text": "Git + GitHub + RStudio\n\nGit + GitHub es, por ejemplo, el entorno más popular para los desarrolladores de paquetes de R.\nEn este taller no vamos a hacer mucha distinción entre qué cosa es de Git y cuál otra es de GitHub.\nEs más, vamos a usar estas herramientas desde RStudio, sin hacer uso en ningún momento de la terminal.\n\n¡Ya estamos listos para empezar!\n\n\n\n\nVolver al inicio"
   },
   {
     "objectID": "taller-git.html",

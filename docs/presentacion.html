@@ -339,76 +339,141 @@ Marcos Prunello
 
 </section>
 <section>
-<section id="separador" class="title-slide slide level1 center" data-background="#5B888C">
-<h1>Separador</h1>
+<section id="principios-de-la-investigación-reproducible" class="title-slide slide level1 center" data-background="#5B888C">
+<h1>Principios de la investigación reproducible</h1>
 
 </section>
-<section id="diapo-1" class="slide level2">
-<h2>Diapo 1</h2>
-<p>texto</p>
-</section>
-<section id="diapo-2" class="slide level2">
-<h2>Diapo 2</h2>
-<div class="small">
-<p>texto chico</p>
-</div>
-</section></section>
-<section>
-<section id="introducción" class="title-slide slide level1 center">
-<h1>Introducción</h1>
+<section id="investigación-o-trabajo-reproducible" class="slide level2">
+<h2>Investigación o trabajo reproducible</h2>
 <ul>
-<li>En cualquier proyecto de análisis de datos enseguida se generan muchísimos archivos.</li>
-<li>Datos, scripts de código, figuras, tablas, reportes, etc.</li>
-<li>Encima, cada uno de estos archivos va evolucionando en el tiempo, generando distintas versiones, algunas que son descartadas por haber sido reemplazadas por otras más completas y otras versiones que no queremos descartar porque reflejan otra forma o propuesta alternativa que queremos tener en mente.</li>
-<li>Siempre terminamos con un montón de archivos con pequeñas variaciones entre sí.</li>
+<li>La investigación científica (y todo trabajo que pretenda ser serio) se basa en un principio fundamental: <strong>garantizar la posibilidad de reproducir los resultados alcanzados</strong>.</li>
 </ul>
-
-<img data-src="imagenes/humor.png" style="width:100.0%" class="r-stretch"><ul>
-<li>Como si fuera poco, estos contenidos generalmente deben ser <strong>compartidos</strong> o se producen trabajando colaborativamente con otras personas.</li>
-<li>Sin una forma organizada de manejar todo esto, es fácil caer en un <strong>caos de archivos, versiones, mails con adjuntos, etc.</strong>, que le roban tiempo al trabajo principal y pueden reducir la calidad del producto final.</li>
-<li>Contamos con algunos servicios de almacenamiento en la nube como <strong>Google Drive</strong> o <strong>Onedrive</strong> que ayudan a tener archivos sincronizados entre distintas computadoras. Sin embargo, las herramientas que ofrecen para la administración de versiones y el trabajo en equipo son limitadas.</li>
-<li>Para esto existen específicamente los <strong>sistemas de control de versiones</strong>.</li>
-<li>En este taller veremos los pasos iniciales en el uso de un sistema de este tipo llamado <strong>Git</strong> y un servicio web de hosting llamado <strong>GitHub</strong>.</li>
-<li>Debemos notar que para alguien que trabaja solo en proyectos de pequeña escala, tal vez no valga la pena pasar por este aprendizaje que puede ser un poco doloroso. Pero incursionar en esto se vuelve necesario a medida que deseamos interactuar con la comunidad, participar en proyectos de mayor dimensión, tomar herramientas metodológicas producidas por otras personas, integrar proyectos comunitarios de enseñanza, publicar nuestro trabajo de investigación o nuestros desarrollos, sumar herramientas valoradas en el mercado laboral, etc.</li>
-</ul>
-</section>
-<section id="qué-es-control-de-versiones" class="slide level2">
-<h2>Qué es control de versiones</h2>
-<ul>
-<li>Un sistema de control de versiones toma inicialmente una versión de un documento y luego registra los cambios que sufre el mismo a lo largo del tiempo. Es posible imaginarlo como una filmación: podemos retroceder a cualquier punto de la historia del documento y ver cómo cambió el mismo hasta llegar a su estado actual.</li>
-<li>Si más de una persona trabaja en el mismo documento, el sistema de control de versiones puede integrar las distintas versiones en una nueva.</li>
-</ul>
-
-<img data-src="imagenes/00_versiones.png" style="width:50.0%" class="r-stretch"><ul>
-<li>Cada una de estas versiones recibe el nombre de <strong>commit</strong> y el sistema registra información útil (<em>metadata</em>) sobre las mismas.</li>
-<li>El conjunto completo de todos los <em>commits</em>, su <em>metadata</em> y todos los archivos involucrados en el control de versiones de un proyecto, recibe el nombre de <strong>repo</strong> (<em>repositorio</em>, <em>repository</em>). Podemos imaginarnos un repo sencillamente como una carpeta de la computadora que sabe cómo guardar todo eso.</li>
-<li>El sistema provee herramientas para mantener sincronizados los <em>repos</em> en distintas computadoras o servicios de hosting, facilitando la colaboración entre personas.</li>
-</ul>
-<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout callout-important callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>Beneficios de emplear un sistema de control de versiones</strong></p>
+<p><strong>Importante</strong></p>
 </div>
 <div class="callout-content">
+<p>En el análsis de datos se considera que una investigación o trabajo es <strong>reproducible</strong> cuando los resultados exactos pueden reproducirse si se tiene acceso a los datos, al software y al código usados.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="requisitos-de-la-investigación-reproducible" class="slide level2">
+<h2>Requisitos de la investigación reproducible</h2>
+<div class="small">
+<p>En la práctica, algunas organizaciones (por ejemplo, agencias de financiamiento, editores de revistas) exigen particularmente:</p>
 <ul>
-<li>Hace que <strong>pensemos en la organización y distribución</strong> de nuestro trabajo como una parte integrada al mismo, sin que quede descuidada y sea realizada <em>a los ponchazos</em>.</li>
-<li>La <strong>colaboración entre personas sea hace de forma estructurada</strong>, con herramientas para la comunicación, el trabajo a destiempo o en simultáneo y la integración de versiones.</li>
-<li>Automáticamente disponemos de <strong>presencia online</strong> para nuestro proyecto con su propia página web, que podemos optar que sea privada o pública para inmediata difusión.</li>
-<li>Si estamos <strong>desarrollando alguna pieza de software</strong> (como un paquete de R o una librería de Python), lo podemos compartir por este medio y cualquier persona lo puede descargar e instalar e incluso realizar aportes, detectar <em>bugs</em>, incluir sugerencias, etc.</li>
-<li>Permite <strong>publicar el código y los resultados que acompañan a nuestras publicaciones</strong>, algo de vital importancia para aquellos editores que requieren adherencia a los principios de la investigación reproducible.</li>
-<li><strong>Guarda de forma organizada viejas versiones</strong> de los archivos indefinidamente, pudiendo volver a cualquier de ellas cuando queramos, compararlas entre sí, agregar comentarios, etc.</li>
+<li>Que los datos y el código se publiquen en algún repositorio.</li>
+<li>Que sea posible crear las tablas y gráficos derivados de los datos ejecutando el código.</li>
+<li>Que se enumeren los detalles sobre el sistema que se utiliza para ejecutar el análisis: sistema operativo, parches, semillas de números aleatorios, versiones específicas del software o paquetes.</li>
+<li>Que el código esté escrito de una manera que se pueda entender fácilmente.</li>
 </ul>
 </div>
+</section>
+<section id="requisitos-de-la-investigación-reproducible-1" class="slide level2">
+<h2>Requisitos de la investigación reproducible</h2>
+<div class="small">
+<ul>
+<li>Que los informes y documentos de salida también se generen utilizando código (es decir, se proporcione un archivo o archivos que, cuando se ejecutan, importan los datos, producen todos los resultados, insertan los resultados en el texto del informe y dan formato al informe).</li>
+</ul>
 </div>
+
+<img data-src="imagenes/repro1.jpg" style="width:30.0%" data-group="galeria" class="r-stretch quarto-figure-center"><p class="caption">The Turing Way project illustration by Scriberia. Used under a CC-BY 4.0 licence. DOI: 10.5281/zenodo.3332807.</p></section>
+<section id="beneficios-de-la-investigación-reproducible" class="slide level2">
+<h2>Beneficios de la investigación reproducible</h2>
+<ul>
+<li>Facilita la verificación de la investigación de forma independiente.</li>
+<li>Facilita la extensión y continuación del trabajo.</li>
+<li>Genera mayor eficiencia al producir código reutilizable (aunque al principio puede parecer que realizar análisis de manera reproducible y automatizada lleva más tiempo y es más difícil).</li>
+<li>Incrementa las chances de que la investigación sea correcta.</li>
+</ul>
+</section>
+<section id="beneficios-de-la-investigación-reproducible-1" class="slide level2">
+<h2>Beneficios de la investigación reproducible</h2>
+
+<img data-src="imagenes/repro2.png" class="quarto-figure quarto-figure-center r-stretch" data-group="galeria"></section>
+<section id="algunos-pilares-de-la-investigación-reproducible" class="slide level2">
+<h2>Algunos pilares de la investigación reproducible</h2>
+<ol type="1">
+<li>Automatización de tareas relacionadas a la comunicación y publicación de resultados.</li>
+<li>Cuidadosa importación de datos en el software.</li>
+<li>Organización del trabajo de análisis de datos en**proyectos*.</li>
+<li><strong>Implementación de un sistema de control de versiones</strong>.</li>
+</ol>
+</section></section>
+<section>
+<section id="sistemas-de-control-de-versiones" class="title-slide slide level1 center" data-background="#5B888C">
+<h1>Sistemas de control de versiones</h1>
+
+</section>
+<section id="sistemas-de-control-de-versiones-1" class="slide level2">
+<h2>Sistemas de control de versiones</h2>
+<ul>
+<li>En cualquier proyecto de análisis de datos enseguida se generan muchísimos archivos, que van evolucionando en el tiempo, generando distintas versiones.</li>
+</ul>
+
+<img data-src="imagenes/humor.png" class="quarto-figure quarto-figure-center r-stretch" style="width:50.0%" data-group="galeria"></section>
+<section id="sistemas-de-control-de-versiones-2" class="slide level2">
+<h2>Sistemas de control de versiones</h2>
+<div class="small">
+<ul>
+<li>Como si fuera poco, estos contenidos generalmente deben ser <strong>compartidos</strong> o se producen trabajando colaborativamente con otras personas.</li>
+<li>Sin una forma organizada de manejar todo esto, es fácil caer en un <strong>caos de archivos, versiones, mails con adjuntos, etc.</strong>, que le roban tiempo al trabajo principal y pueden reducir la calidad del producto final.</li>
+<li>Contamos con algunos servicios de almacenamiento en la nube como <strong>Google Drive</strong> o <strong>Onedrive</strong> que ayudan a tener archivos sincronizados entre distintas computadoras. Sin embargo, las herramientas que ofrecen para la administración de versiones y el trabajo en equipo son limitadas.</li>
+<li>Para esto existen específicamente los <strong>sistemas de control de versiones</strong>.</li>
+</ul>
+</div>
+</section>
+<section id="sistemas-de-control-de-versiones-3" class="slide level2">
+<h2>Sistemas de control de versiones</h2>
+<div class="small">
+<ul>
+<li>En este taller veremos los pasos iniciales en el uso de un sistema de este tipo llamado <strong>Git</strong> y un servicio web de hosting llamado <strong>GitHub</strong>.</li>
+<li>Debemos notar que para alguien que trabaja solo en proyectos de pequeña escala, tal vez no valga la pena pasar por este aprendizaje que puede ser un poco doloroso.</li>
+<li>Pero incursionar en esto se vuelve necesario a medida que deseamos interactuar con la comunidad, participar en proyectos de mayor dimensión, tomar herramientas metodológicas producidas por otras personas, integrar proyectos comunitarios de enseñanza, publicar nuestro trabajo de investigación o nuestros desarrollos, sumar herramientas valoradas en el mercado laboral, etc.</li>
+</ul>
+</div>
+</section>
+<section id="qué-es-control-de-versiones" class="slide level2">
+<h2>Qué es control de versiones</h2>
+<ul>
+<li>Un sistema de control de versiones toma inicialmente una versión de un documento y luego registra los cambios que sufre el mismo a lo largo del tiempo.</li>
+<li>Si más de una persona trabaja en el mismo documento, el sistema de control de versiones puede integrar las distintas versiones en una nueva.</li>
+</ul>
+
+<img data-src="imagenes/00_versiones.png" class="quarto-figure quarto-figure-center r-stretch" style="width:50.0%" data-group="galeria"></section>
+<section id="commits-y-repos" class="slide level2">
+<h2>Commits y repos</h2>
+<div class="small">
+<ul>
+<li>Cada una de estas versiones recibe el nombre de <strong>commit</strong> y el sistema registra información útil (<em>metadata</em>) sobre las mismas.</li>
+<li>El conjunto completo de todos los <em>commits</em>, su <em>metadata</em> y todos los archivos involucrados en el control de versiones de un proyecto, recibe el nombre de <strong>repo</strong> (<em>repositorio</em>, <em>repository</em>).</li>
+<li>Podemos imaginarnos un repo sencillamente como una carpeta de la computadora que sabe cómo guardar todo eso.</li>
+<li>El sistema provee herramientas para mantener sincronizados los <em>repos</em> en distintas computadoras o servicios de hosting, facilitando la colaboración entre personas.</li>
+</ul>
+</div>
+</section>
+<section id="beneficios-de-emplear-un-sistema-de-control-de-versiones" class="slide level2">
+<h2>Beneficios de emplear un sistema de control de versiones</h2>
+<div class="small">
+<ul>
+<li>Hace que <strong>pensemos en la organización y distribución</strong> de nuestro trabajo.</li>
+<li>La <strong>colaboración entre personas sea hace de forma estructurada</strong>.</li>
+<li>Automáticamente disponemos de <strong>presencia online</strong> para nuestro proyecto.</li>
+<li>Si estamos <strong>desarrollando alguna pieza de software</strong> (como un paquete de R o una librería de Python), lo podemos compartir por este medio.</li>
+<li>Permite <strong>publicar el código y los resultados que acompañan a nuestras publicaciones</strong>.</li>
+<li><strong>Guarda de forma organizada versiones viejas</strong> de los archivos indefinidamente.</li>
+</ul>
 </div>
 </section>
 <section id="qué-es-git" class="slide level2">
 <h2>Qué es Git</h2>
 
-<img data-src="imagenes/git.png" style="width:25.0%" class="r-stretch"><ul>
+<img data-src="imagenes/git.png" class="quarto-figure quarto-figure-center r-stretch" style="width:25.0%" data-group="galeria"><ul>
 <li><strong>Git</strong> es un sistema de control de versiones.</li>
 <li><a href="https://en.wikipedia.org/wiki/List_of_version-control_software">Hay muchos sistemas de este estilo</a>, pero utilizaremos <strong>Git</strong> porque ha ganado gran popularidad en el mundo del análisis de datos.</li>
 <li><strong>Git</strong> es el software que instalamos localmente para registrar los cambios.</li>
@@ -417,26 +482,25 @@ Marcos Prunello
 </section>
 <section id="qué-es-github" class="slide level2">
 <h2>Qué es GitHub</h2>
-<div class="cell">
-<div class="cell-output-display">
-<div>
-<figure>
-<p><img data-src="imagenes/github.png" style="width:25.0%"></p>
-</figure>
-</div>
-</div>
-</div>
+
+<img data-src="imagenes/github.png" class="quarto-figure quarto-figure-center r-stretch" style="width:25.0%" data-group="galeria"><div class="small">
 <ul>
 <li><a href="https://github.com">GitHub</a> es una interfaz gráfica online que complementa a <strong>Git</strong> y que provee un mecanismo de distribución para los repos.</li>
 <li>Para llevarlo a terreno conocido, <strong>GitHub</strong> es a <strong>Git</strong> lo que <strong>RStudio</strong> es a <strong>R</strong> (más o menos).</li>
 <li>Podemos usar <strong>Git</strong> sin <strong>GitHub</strong>, pero el último agrega muchas herramientas útiles.</li>
 <li><strong>GitHub</strong> es el servicio de hosting que utilizaremos para que nuestro proyecto tenga presencia online, permitiéndole a otras personas explorar los archivos, su historia, sincronizarse con la versión actual, proponer y realizar cambios, etc.</li>
 <li>Hay otras plataformas que cumplen esta función, como GitLab or BitBucket, pero en este taller nos centramos en esta.</li>
-<li><strong>Git + GitHub</strong> es, por ejemplo, el entorno más popular para los desarrolladores de paquetes de R. <!-- , por lo cual a cualquier usuario avanzado de R le resultará útil tener conocimientos sobre los mismos. --></li>
-<li>En este taller no vamos a hacer mucha distinción entre qué cosa es de <strong>Git</strong> y cuál otra es de <strong>GitHub</strong>.</li>
-<li>Es más, vamos a usar estas herramientas desde RStudio, sin hacer uso en ningún momento de la terminal. <!-- , dado que estamos aprendiendo R, --></li>
-<li>Sin embargo, al final de este material hay una sección llamada <strong>git desde la terminal</strong> que muestra cómo se realizan las mismas tareas empleando sólo Git.</li>
 </ul>
+</div>
+</section>
+<section id="git-github-rstudio" class="slide level2">
+<h2>Git + GitHub + RStudio</h2>
+<ul>
+<li><strong>Git + GitHub</strong> es, por ejemplo, el entorno más popular para los desarrolladores de paquetes de R.</li>
+<li>En este taller no vamos a hacer mucha distinción entre qué cosa es de <strong>Git</strong> y cuál otra es de <strong>GitHub</strong>.</li>
+<li>Es más, vamos a usar estas herramientas desde RStudio, sin hacer uso en ningún momento de la terminal.</li>
+</ul>
+<p><strong>¡Ya estamos listos para empezar!</strong></p>
 
 <div class="quarto-auto-generated-content">
 <p><img src="imagenes/logo.png" class="slide-logo"></p>
@@ -655,44 +719,6 @@ Marcos Prunello
         ]
       });
     </script>
-    
-    <script>
-      // htmlwidgets need to know to resize themselves when slides are shown/hidden.
-      // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
-      // slide changes (different for each slide format).
-      (function () {
-        // dispatch for htmlwidgets
-        function fireSlideEnter() {
-          const event = window.document.createEvent("Event");
-          event.initEvent("slideenter", true, true);
-          window.document.dispatchEvent(event);
-        }
-
-        function fireSlideChanged(previousSlide, currentSlide) {
-          fireSlideEnter();
-
-          // dispatch for shiny
-          if (window.jQuery) {
-            if (previousSlide) {
-              window.jQuery(previousSlide).trigger("hidden");
-            }
-            if (currentSlide) {
-              window.jQuery(currentSlide).trigger("shown");
-            }
-          }
-        }
-
-        // hookup for slidy
-        if (window.w3c_slidy) {
-          window.w3c_slidy.add_observer(function (slide_num) {
-            // slide_num starts at position 1
-            fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);
-          });
-        }
-
-      })();
-    </script>
-
     <script id="quarto-html-after-body" type="application/javascript">
     window.document.addEventListener("DOMContentLoaded", function (event) {
       const toggleBodyColorMode = (bsSheetEl) => {
