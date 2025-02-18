@@ -33,7 +33,6 @@ lang: es
 
 format:
   html:
-    toc: true
     self-contained: true
     theme:
       light: default

@@ -98,3 +98,13 @@ use_git_config(user.name = "minombre", user.email = "micorreo@proveedor.com")
         -   Como este sistema de credenciales funciona un poco como un caché de un explorador web, puede ser que después de algún tiempo por seguridad no se encuentre más nuestra credencial. En caso de que GitHub nos deniegue el acceso, podemos crear un nuevo token de la misma forma.
 
         -   En Linux todo lo anterior no anda así tan sencillamente, es más fácil usar el protocolo SSH.
+
+## Eliminar credenciales (opcional)
+
+- Si después de realizar el taller necesitás borrar las credenciales de la compu que usaste, podés utilizar:
+
+```{r}
+#| eval: false
+gitcreds_delete()
+```
+

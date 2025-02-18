@@ -16,6 +16,9 @@ lightbox: true
 knitr:
   opts_chunk: 
     fig.align: "center"
+format:
+  html:
+    toc: true
 ---
 
 ::: callout-caution

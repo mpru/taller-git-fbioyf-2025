@@ -22,3 +22,72 @@ texto
 ::: {.small}
 texto chico
 :::
+
+# Introducción
+
+-   En cualquier proyecto de análisis de datos enseguida se generan muchísimos archivos.
+-   Datos, scripts de código, figuras, tablas, reportes, etc.
+-   Encima, cada uno de estos archivos va evolucionando en el tiempo, generando distintas versiones, algunas que son descartadas por haber sido reemplazadas por otras más completas y otras versiones que no queremos descartar porque reflejan otra forma o propuesta alternativa que queremos tener en mente.
+-   Siempre terminamos con un montón de archivos con pequeñas variaciones entre sí.
+
+```{r, fig.show='hold', echo=FALSE, out.width='100%'}
+knitr::include_graphics('imagenes/humor.png')
+```
+
+-   Como si fuera poco, estos contenidos generalmente deben ser **compartidos** o se producen trabajando colaborativamente con otras personas.
+-   Sin una forma organizada de manejar todo esto, es fácil caer en un **caos de archivos, versiones, mails con adjuntos, etc.**, que le roban tiempo al trabajo principal y pueden reducir la calidad del producto final.
+-   Contamos con algunos servicios de almacenamiento en la nube como **Google Drive** o **Onedrive** que ayudan a tener archivos sincronizados entre distintas computadoras. Sin embargo, las herramientas que ofrecen para la administración de versiones y el trabajo en equipo son limitadas.
+-   Para esto existen específicamente los **sistemas de control de versiones**.
+-   En este taller veremos los pasos iniciales en el uso de un sistema de este tipo llamado **Git** y un servicio web de hosting llamado **GitHub**.
+-   Debemos notar que para alguien que trabaja solo en proyectos de pequeña escala, tal vez no valga la pena pasar por este aprendizaje que puede ser un poco doloroso. Pero incursionar en esto se vuelve necesario a medida que deseamos interactuar con la comunidad, participar en proyectos de mayor dimensión, tomar herramientas metodológicas producidas por otras personas, integrar proyectos comunitarios de enseñanza, publicar nuestro trabajo de investigación o nuestros desarrollos, sumar herramientas valoradas en el mercado laboral, etc.
+
+## Qué es control de versiones
+
+-   Un sistema de control de versiones toma inicialmente una versión de un documento y luego registra los cambios que sufre el mismo a lo largo del tiempo. Es posible imaginarlo como una filmación: podemos retroceder a cualquier punto de la historia del documento y ver cómo cambió el mismo hasta llegar a su estado actual.
+-   Si más de una persona trabaja en el mismo documento, el sistema de control de versiones puede integrar las distintas versiones en una nueva.
+
+```{r, fig.show='hold', echo=FALSE, out.width='50%'}
+knitr::include_graphics('imagenes/00_versiones.png')
+```
+
+-   Cada una de estas versiones recibe el nombre de **commit** y el sistema registra información útil (*metadata*) sobre las mismas.
+-   El conjunto completo de todos los *commits*, su *metadata* y todos los archivos involucrados en el control de versiones de un proyecto, recibe el nombre de **repo** (*repositorio*, *repository*). Podemos imaginarnos un repo sencillamente como una carpeta de la computadora que sabe cómo guardar todo eso.
+-   El sistema provee herramientas para mantener sincronizados los *repos* en distintas computadoras o servicios de hosting, facilitando la colaboración entre personas.
+
+::: callout-note
+## Beneficios de emplear un sistema de control de versiones
+
+-   Hace que **pensemos en la organización y distribución** de nuestro trabajo como una parte integrada al mismo, sin que quede descuidada y sea realizada *a los ponchazos*.
+-   La **colaboración entre personas sea hace de forma estructurada**, con herramientas para la comunicación, el trabajo a destiempo o en simultáneo y la integración de versiones.
+-   Automáticamente disponemos de **presencia online** para nuestro proyecto con su propia página web, que podemos optar que sea privada o pública para inmediata difusión.
+-   Si estamos **desarrollando alguna pieza de software** (como un paquete de R o una librería de Python), lo podemos compartir por este medio y cualquier persona lo puede descargar e instalar e incluso realizar aportes, detectar *bugs*, incluir sugerencias, etc.
+-   Permite **publicar el código y los resultados que acompañan a nuestras publicaciones**, algo de vital importancia para aquellos editores que requieren adherencia a los principios de la investigación reproducible.
+-   **Guarda de forma organizada viejas versiones** de los archivos indefinidamente, pudiendo volver a cualquier de ellas cuando queramos, compararlas entre sí, agregar comentarios, etc.
+:::
+
+## Qué es Git
+
+```{r, fig.show='hold', echo=FALSE, out.width='25%'}
+knitr::include_graphics('imagenes/git.png')
+```
+
+-   **Git** es un sistema de control de versiones.
+-   [Hay muchos sistemas de este estilo](https://en.wikipedia.org/wiki/List_of_version-control_software), pero utilizaremos **Git** porque ha ganado gran popularidad en el mundo del análisis de datos.
+-   **Git** es el software que instalamos localmente para registrar los cambios.
+-   Se maneja con comandos desde una terminal.
+
+## Qué es GitHub
+
+```{r, fig.show='hold', echo=FALSE, out.width='25%'}
+knitr::include_graphics('imagenes/github.png')
+```
+
+-   [GitHub](https://github.com) es una interfaz gráfica online que complementa a **Git** y que provee un mecanismo de distribución para los repos.
+-   Para llevarlo a terreno conocido, **GitHub** es a **Git** lo que **RStudio** es a **R** (más o menos).
+-   Podemos usar **Git** sin **GitHub**, pero el último agrega muchas herramientas útiles.
+-   **GitHub** es el servicio de hosting que utilizaremos para que nuestro proyecto tenga presencia online, permitiéndole a otras personas explorar los archivos, su historia, sincronizarse con la versión actual, proponer y realizar cambios, etc.
+-   Hay otras plataformas que cumplen esta función, como GitLab or BitBucket, pero en este taller nos centramos en esta.
+-   **Git + GitHub** es, por ejemplo, el entorno más popular para los desarrolladores de paquetes de R. <!-- , por lo cual a cualquier usuario avanzado de R le resultará útil tener conocimientos sobre los mismos. -->
+-   En este taller no vamos a hacer mucha distinción entre qué cosa es de **Git** y cuál otra es de **GitHub**.
+-   Es más, vamos a usar estas herramientas desde RStudio, sin hacer uso en ningún momento de la terminal. <!-- , dado que estamos aprendiendo R, -->
+-   Sin embargo, al final de este material hay una sección llamada **git desde la terminal** que muestra cómo se realizan las mismas tareas empleando sólo Git. 

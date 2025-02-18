@@ -6,10 +6,11 @@ date: today
 date-format: long
 ---
 
+### ¡Hola!
 
-**En este taller vamos a ... COMPLETAR**
+En este taller vamos a describir en qué consiste un **sistema de control de versiones y trabajo colaborativo** y vamos a hacer una introducción al uso de Git, GitHub y RStudio en conjunto.
 
-En la sección [Preparativos](preparacion.html) vas a encontrar los materiales necesarios para seguir los ejemplos.
+En la sección [Preparativos](preparacion.html) vas a encontrar los pasos necesarios para tener todo listo y seguir los ejemplos.
 
 ![](imagenes/logos.png){fig-align="center" width="40%"}
 
